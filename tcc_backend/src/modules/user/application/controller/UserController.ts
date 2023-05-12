@@ -5,9 +5,9 @@ import { prismaClient } from "infra/prisma";
 
 export class UserController {
   async create(req: Request, res: Response): Promise<void> {
-    const { name, email } = req.body;
+    const { name, email, password } = req.body;
 
-    if (!name || !email) {
+    if (!name || !email || !password) {
       res.status(400).json({
         message: "Parâmetros inválidos",
       });
@@ -18,9 +18,44 @@ export class UserController {
         data: {
           name: name,
           email: email,
+          password: password,
         },
       });
       res.status(201).json(user);
+      return;
+    } catch (error) {
+      res.status(400).json();
+      return;
+    }
+  }
+
+  async list(req: Request, res: Response): Promise<void> {
+    try {
+      const users = await prismaClient.user.findMany({});
+      res.status(200).json(users);
+      return;
+    } catch (error) {
+      res.status(400).json();
+      return;
+    }
+  }
+  async findById(req: Request, res: Response): Promise<void> {
+    const { id } = req.query;
+
+    if (!id || Number.isNaN(Number(id))) {
+      res.status(400).json({
+        message: "Parâmetros inválidos",
+      });
+      return;
+    }
+
+    try {
+      const user = await prismaClient.user.findUnique({
+        where: {
+          id: Number(id),
+        },
+      });
+      res.status(200).json(user);
       return;
     } catch (error) {
       res.status(400).json();
