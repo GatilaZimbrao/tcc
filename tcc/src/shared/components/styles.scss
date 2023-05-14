@@ -1,0 +1,47 @@
+.sidebar--container {
+  background: #c8ccd1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  .sidebar--logo {
+    padding: 16px;
+  }
+
+  .sidebar--list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    margin: 0;
+    padding: 0;
+
+    .sidebar--list--item {
+      width: 100%;
+
+      font-size: 16px;
+      font-weight: 600;
+      padding: 8px 16px;
+
+      &:hover {
+        background: #535bf2;
+      }
+
+      &.active {
+        background: #535bf2;
+      }
+    }
+  }
+
+  .sidebar--footer {
+    text-align: left;
+
+    .sidebar--footer--item {
+      width: 100%;
+      padding: 8px 16px;
+    }
+  }
+}
