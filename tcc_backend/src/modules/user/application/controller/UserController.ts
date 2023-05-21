@@ -3,6 +3,9 @@
 import { Request, Response } from "express";
 import { prismaClient } from "infra/prisma";
 
+import { RegisterUserService } from "../services/RegisterUserService";
+import { container } from "tsyringe";
+
 export class UserController {
   async create(req: Request, res: Response): Promise<void> {
     const { name, email, password } = req.body;
@@ -14,7 +17,10 @@ export class UserController {
       return;
     }
     try {
-      const user = await prismaClient.user.create({
+      const registerService = container.resolve(RegisterUserService);
+
+      const newUser: User = prismaClient.user;
+      const user = await registerService.execute({
         data: {
           name: name,
           email: email,

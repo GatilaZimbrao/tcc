@@ -1,3 +1,5 @@
+import "reflect-metadata";
+
 import { Router } from "express";
 import { userRouter } from "modules/user/routes/UserRouter";
 
