@@ -4,6 +4,10 @@ import { IBcrypt } from "providers/bcrypt/bcrypt";
 
 import { inject, injectable } from "tsyringe";
 import { GenerateTokensService } from "./GenerateTokensService";
+import {
+  AuthError,
+  AuthErrorStatus,
+} from "modules/auth/shared/error/AuthError";
 
 type Params = {
   email: string;
@@ -29,12 +33,12 @@ export class LoginUserService {
     const user = await this.repository.findByEmail(email);
 
     if (!user) {
-      throw new Error("Acessos incorretos");
+      throw new AuthError(AuthErrorStatus.WRONG_CREDENTIALS);
     }
     const passwordMatch = await this.bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
-      throw new Error("Acessos incorretos");
+      throw new AuthError(AuthErrorStatus.WRONG_CREDENTIALS);
     }
 
     const { token } = await this.generateTokens.execute({

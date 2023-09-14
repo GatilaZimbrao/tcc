@@ -1,5 +1,5 @@
-import "express-async-errors";
 import "reflect-metadata";
+import "express-async-errors";
 import "shared/container";
 
 import cookieParser from "cookie-parser";
@@ -7,9 +7,10 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express, { Express } from "express";
 // import pino from "express-pino-logger";
-// import helmet from "helmet";
+import helmet from "helmet";
 import { router } from "shared/routes";
-// import { handleError } from "./shared/middlewares/HandleError";
+import { handleError } from "@shared/middlewares/HandleError";
+import path from "path";
 
 dotenv.config();
 
@@ -24,10 +25,11 @@ export function createApp(): Express {
       origin: true,
     })
   );
-  // app.use(helmet());
+  app.use(helmet());
   // app.use(pino());
 
   app.use("/api/v1", router);
+
   // app.use("/api/v1/docs", swaggerUI.serve, swaggerUI.setup(swaggerFile));
 
   app.get("/", (req, res) => {
@@ -39,7 +41,7 @@ export function createApp(): Express {
     res.status(404).send("Not found");
   });
 
-  // app.use(handleError);
+  app.use(handleError);
 
   return app;
 }
