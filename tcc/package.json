@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "cross-env NODE_ENV=dev vite",
+    "prod": "cross-env NODE_ENV=prod vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
@@ -12,6 +13,7 @@
     "axios": "^1.4.0",
     "classnames": "^2.3.2",
     "formik": "^2.2.9",
+    "js-cookie": "^3.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
@@ -19,10 +21,13 @@
     "yup": "^1.1.1"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.3",
+    "@types/node": "^20.2.3",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^3.1.0",
     "autoprefixer": "^10.4.14",
+    "cross-env": "^7.0.3",
     "postcss": "^8.4.23",
     "sass": "^1.62.1",
     "tailwindcss": "^3.3.2",

@@ -1,11 +1,24 @@
 import { Router } from "express";
-// import { AuthController } from "../application/controller/AuthController";
+import { FileController } from "../application/controller/FileController";
+import fileUpload from "express-fileupload";
+import { filesPayloadExists } from "../middlewares/filesPayloadExists";
+import { filesExtLimiter } from "../middlewares/filesExtLimiter";
+import { filesSizeLimiter } from "../middlewares/filesSizeLimiter";
 
 const fileRouter = Router();
-// const controller = new AuthController();
+const controller = new FileController();
 
-// fileRouter.post("/login", controller.login);
-// fileRouter.post("/register", controller.register);
-// fileRouter.get("/session", controller.session);
+fileRouter.post(
+  "/create",
+  fileUpload({ createParentPath: true }),
+  filesPayloadExists,
+  filesExtLimiter,
+  filesSizeLimiter,
+  controller.create
+);
+
+fileRouter.delete("/delete/:id", controller.delete);
+fileRouter.get("/find/:id", controller.findById);
+fileRouter.get("/list", controller.list);
 
 export { fileRouter };

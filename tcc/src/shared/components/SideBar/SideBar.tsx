@@ -3,10 +3,11 @@ import CefetLogo from "../../../assets/cefet_logo.png";
 
 import "./styles.scss";
 import { Button } from "../../styleguide/Button/Button";
+import { Link } from "react-router-dom";
 
 const SideBar = () => {
   return (
-    <div className="sidebar--container flex flex-col bg-gray-200">
+    <div className="sidebar--container flex flex-col bg-white">
       <div className="p-4">
         <img src={CefetLogo} alt="" />
       </div>
@@ -15,7 +16,9 @@ const SideBar = () => {
           Inicio
         </Button>
         <Button apperance="menu" block>
-          Teste 1
+          <Link to={"/education"} className="block w-full text-left">
+            Ensino
+          </Link>
         </Button>
         <Button apperance="menu" block>
           Teste 2

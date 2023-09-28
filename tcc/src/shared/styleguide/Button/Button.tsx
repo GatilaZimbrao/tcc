@@ -39,7 +39,7 @@ const types: Record<ButtonType, ButtonTypeDefinition> = {
     active: "active:bg-brand-600",
   },
   menu: {
-    default: "bg-transparent text-brand-500 border-gray-200",
+    default: "bg-transparent text-brand-500 border-none",
     hover: "hover:bg-brand-500 hover:text-white",
     active: "active:bg-brand-600",
   },
@@ -96,7 +96,7 @@ const Button = ({
 
   return (
     <button
-      className={`${classes} group relative z-[2] flex items-center rounded transition duration-150 ease-out hover:ease-in font-sans`}
+      className={`${classes} group relative z-[2] outline-0 flex items-center rounded transition duration-150 ease-out hover:ease-in font-sans`}
       {...rest}
       type={type}
     >

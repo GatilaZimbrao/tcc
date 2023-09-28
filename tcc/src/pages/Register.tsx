@@ -1,4 +1,5 @@
 import { Formik, Form, Field, FieldProps } from "formik";
+import { FormikHelpers } from "formik/dist/types";
 
 import * as Yup from "yup";
 import { TextInput } from "../shared/styleguide/Inputs/TextInput/TextInput";
@@ -7,26 +8,29 @@ import { BoxedPage } from "../shared/styleguide/BoxedPage/BoxedPage";
 import { useAuth } from "../modules/auth/context/AuthContext";
 import { useEffect, useState } from "react";
 import { ErrorMessage } from "../shared/styleguide/Inputs/ErrorMessage/ErrorMessage";
-import { Link, Navigate } from "react-router-dom";
+import { SuccessMessage } from "../shared/styleguide/Inputs/SuccessMessage/SuccessMessage";
+import { Link } from "react-router-dom";
 
 const initialValues = {
+  name: "",
   email: "",
   password: "",
+  confirmPassword: "",
 };
 
 type FormikValues = typeof initialValues;
 
 const schema = Yup.object().shape({
+  name: Yup.string().required("Digite uma nome válido"),
   email: Yup.string().email().required("Digite um email válido"),
   password: Yup.string().required("Digite uma senha válida"),
+  confirmPassword: Yup.string().required("Digite uma senha válida"),
 });
 
-export const Login = () => {
-  const { handleLogin, loading, isAuthenticated } = useAuth();
-
-  if (isAuthenticated) return <Navigate to="/" replace />;
-
+export const Register = () => {
+  const { handleRegister, loading } = useAuth();
   const [requestError, setRequestError] = useState<string | undefined>("");
+  const [requestSuccess, setRequestSuccess] = useState<string | undefined>("");
 
   useEffect(() => {
     if (requestError) {
@@ -36,11 +40,32 @@ export const Login = () => {
     }
   }, [requestError]);
 
-  const onSubmit = async ({ email, password }: FormikValues) => {
-    const { success, message, error } = await handleLogin({
+  useEffect(() => {
+    if (requestSuccess) {
+      setTimeout(() => {
+        setRequestSuccess("");
+      }, 6000);
+    }
+  }, [requestSuccess]);
+
+  const onSubmit = async (
+    { name, email, password, confirmPassword }: FormikValues,
+    { setErrors }: FormikHelpers<FormikValues>
+  ) => {
+    if (password != confirmPassword) {
+      setErrors({
+        password: "Senhas devem ser iguais",
+        confirmPassword: "Senhas devem ser iguais",
+      });
+      return;
+    }
+    const { success, message, error } = await handleRegister({
+      name,
       email,
       password,
+      confirmPassword,
     });
+
     if (!success) {
       if (error === "ERR_BAD_REQUEST") {
         if (message) {
@@ -51,12 +76,28 @@ export const Login = () => {
       } else if (error === "ERR_NETWORK") {
         setRequestError("Erro de conexão");
       }
+    } else {
+      if (message) {
+        setRequestSuccess(message);
+      } else {
+        setRequestSuccess("Cadastrado com sucesso!");
+      }
     }
   };
 
   const content = (
     <>
       <div className="mt-6">
+        <Field name="name">
+          {({ field, meta }: FieldProps) => (
+            <TextInput
+              label="Digite seu nome:"
+              {...field}
+              value={field.value}
+              error={meta.touched ? meta.error : ""}
+            />
+          )}
+        </Field>
         <div className="mt-4">
           <Field name="email">
             {({ field, meta }: FieldProps) => (
@@ -82,11 +123,29 @@ export const Login = () => {
             )}
           </Field>
         </div>
+        <div className="mt-4">
+          <Field name="confirmPassword">
+            {({ field, meta }: FieldProps) => (
+              <TextInput
+                type="password"
+                label="Repita sua senha:"
+                {...field}
+                value={field.value}
+                error={meta.touched ? meta.error : ""}
+              />
+            )}
+          </Field>
+        </div>
       </div>
 
       {requestError && (
         <div className="mt-2">
           <ErrorMessage error={requestError} />
+        </div>
+      )}
+      {requestSuccess && (
+        <div className="mt-2">
+          <SuccessMessage message={requestSuccess} />
         </div>
       )}
     </>
@@ -95,8 +154,8 @@ export const Login = () => {
   const footer = (
     <>
       <Button compact apperance="link" size="sm">
-        <Link to="/register" className="text-link">
-          Registre-se
+        <Link to="/login" className="text-link">
+          Fazer login
         </Link>
       </Button>
       <Button loading={loading} apperance="primary" size="sm" type="submit">
@@ -114,7 +173,7 @@ export const Login = () => {
       {({}) => (
         <Form className="flex grow flex-col justify-between">
           <BoxedPage
-            title="Faça login para ter acesso"
+            title="Cadastre-se para ter acesso"
             children={content}
             footer={footer}
           />

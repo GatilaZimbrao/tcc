@@ -10,7 +10,6 @@ import express, { Express } from "express";
 import helmet from "helmet";
 import { router } from "shared/routes";
 import { handleError } from "@shared/middlewares/HandleError";
-import path from "path";
 
 dotenv.config();
 
@@ -30,10 +29,7 @@ export function createApp(): Express {
 
   app.use("/api/v1", router);
 
-  // app.use("/api/v1/docs", swaggerUI.serve, swaggerUI.setup(swaggerFile));
-
   app.get("/", (req, res) => {
-    // console.log(req.file);
     res.send("Server online!");
   });
 

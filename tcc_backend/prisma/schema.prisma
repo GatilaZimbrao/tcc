@@ -20,6 +20,15 @@ model User {
   @@map("user")
 }
 
+model File {
+  id            Int     @id @default(autoincrement())
+  name          String
+  type          String
+  file_name     String
+  
+  @@map("file")
+}
+
 model Education {
   id    Int     @id @default(autoincrement())
   title String
