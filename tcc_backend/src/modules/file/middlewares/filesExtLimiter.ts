@@ -2,9 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import { FileArray, UploadedFile } from "express-fileupload";
 import path from "path";
 import { FileError, FileErrorStatus } from "../shared/error/FileError";
-import { FILE_ALLOWED_EXT } from "../config/config";
 
-export const filesExtLimiter = () => {
+export const filesExtLimiter = (allowedExtArray: String[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const files = req.files as FileArray;
 
@@ -19,7 +18,7 @@ export const filesExtLimiter = () => {
     });
 
     const allowed = fileExtensions.every((ext) =>
-      FILE_ALLOWED_EXT.includes(ext)
+      allowedExtArray.includes(ext)
     );
 
     if (!allowed) {

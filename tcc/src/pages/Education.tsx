@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { MainComponent } from "../shared/components/MainComponent/MainComponent";
 import { SideBar } from "../shared/components/SideBar/SideBar";
 import { api } from "../shared/clients/APIClient";
-import { File, ListFileResponse } from "../modules/auth/typings/file";
+import { File, ListFileResponse } from "../modules/file/typings/file";
+import { DocumentsTable } from "../modules/file/components/DocumentsTable/DocumentsTable";
 
 export const Education = () => {
   const [loading, setLoading] = useState(false);
@@ -38,6 +39,7 @@ export const Education = () => {
         <div>TESTEEEEE</div>
 
         <div>{loading ? "SIM" : "NAO"}</div>
+        <DocumentsTable data={listFile} />
       </MainComponent>
     </div>
   );

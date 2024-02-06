@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { FileArray, UploadedFile } from "express-fileupload";
-import { FILE_SIZE_LIMIT, FILE_SIZE_LIMIT_MB } from "../config/config";
+import { FILE_SIZE_LIMIT } from "../config/config";
 import { FileError, FileErrorStatus } from "../shared/error/FileError";
 
 export const filesSizeLimiter = (

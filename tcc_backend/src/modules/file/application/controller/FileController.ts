@@ -18,6 +18,9 @@ import path from "path";
 export class FileController {
   async create(req: Request, res: Response): Promise<void> {
     const { name, type } = req.body;
+
+    console.log("name", name);
+    console.log("type", type);
     let file_name = "";
     let uploadedFile: UploadedFile | undefined;
 

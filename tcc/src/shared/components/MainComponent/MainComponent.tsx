@@ -1,6 +1,3 @@
-import { ReactNode } from "react";
-import "./styles.scss";
-
 type MainComponentProps = React.HTMLProps<HTMLButtonElement>;
 
 const MainComponent = ({ children }: MainComponentProps) => {

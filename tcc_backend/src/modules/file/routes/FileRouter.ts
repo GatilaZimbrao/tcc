@@ -1,9 +1,10 @@
 import { Router } from "express";
 import { FileController } from "../application/controller/FileController";
 import fileUpload from "express-fileupload";
-import { filesPayloadExists } from "../middlewares/filesPayloadExists";
 import { filesExtLimiter } from "../middlewares/filesExtLimiter";
 import { filesSizeLimiter } from "../middlewares/filesSizeLimiter";
+import { filesPayloadExists } from "../middlewares/filesPayloadExists";
+import { FILE_ALLOWED_EXT } from "../config/config";
 
 const fileRouter = Router();
 const controller = new FileController();
@@ -12,7 +13,7 @@ fileRouter.post(
   "/create",
   fileUpload({ createParentPath: true }),
   filesPayloadExists,
-  filesExtLimiter,
+  filesExtLimiter(FILE_ALLOWED_EXT),
   filesSizeLimiter,
   controller.create
 );
