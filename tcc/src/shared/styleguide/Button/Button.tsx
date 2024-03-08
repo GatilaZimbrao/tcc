@@ -96,7 +96,7 @@ const Button = ({
 
   return (
     <button
-      className={`${classes} group relative z-[2] outline-0 flex items-center rounded transition duration-150 ease-out hover:ease-in font-sans`}
+      className={`${classes} group relative box-border outline-0 flex items-center rounded transition duration-150 ease-out hover:ease-in font-sans`}
       {...rest}
       type={type}
     >

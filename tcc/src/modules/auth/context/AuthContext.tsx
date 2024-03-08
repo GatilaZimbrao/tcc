@@ -59,7 +59,12 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const validateSession = async () => {
     setLoading(true);
     try {
-      const response = await api.get<SessionResponse>("/auth/session");
+      const sessionToken = Cookies.get(SESSION_TOKEN);
+      const response = await api.get<SessionResponse>("/auth/session", {
+        headers: {
+          Authorization: sessionToken,
+        },
+      });
       const authenticated = response.status === 200;
 
       if (authenticated) {
@@ -92,7 +97,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       if (authenticated) {
         setUser(response.data.user);
 
-        Cookies.set(SESSION_TOKEN, `Bearer response.data.token`);
+        Cookies.set(SESSION_TOKEN, "Bearer " + response.data.token);
       }
 
       return { success: authenticated };

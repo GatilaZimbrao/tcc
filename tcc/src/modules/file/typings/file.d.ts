@@ -8,3 +8,5 @@ export interface File {
 export type ListFileResponse = File[];
 
 export type GetFileResponse = File;
+
+export type CreateFileResponse = File;

@@ -33,7 +33,7 @@ const TextInput = ({
   return (
     <>
       <div className={`${block ? "w-full" : "w-fit"}`}>
-        <div className="flex relative z-[2]">
+        <div className="flex relative">
           <input
             className={`text-sm placeholder:text-gray-300 peer w-full rounded border border-gray-300 text-gray-900 focus:shadow-md focus:shadow-brand-500/10 focus:outline-0 ${classes}`}
             placeholder=" "
