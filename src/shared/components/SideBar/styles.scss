@@ -1,0 +1,33 @@
+.sidebar--container {
+  background: #c8ccd1;
+
+  max-width: 320px;
+  width: 100%;
+
+  .sidebar--list--item {
+    width: 100%;
+
+    font-size: 16px;
+    font-weight: 600;
+    padding: 8px 16px;
+    cursor: pointer;
+
+    &:hover {
+      background: #535bf2;
+    }
+
+    &.active {
+      background: #535bf2;
+    }
+  }
+
+  .sidebar--footer {
+    text-align: left;
+
+    .sidebar--footer--item {
+      width: 100%;
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+  }
+}
