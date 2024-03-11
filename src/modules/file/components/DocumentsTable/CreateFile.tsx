@@ -9,6 +9,8 @@ import { SuccessMessage } from "../../../../shared/styleguide/Inputs/SuccessMess
 import { Button } from "../../../../shared/styleguide/Button/Button";
 import { Link } from "react-router-dom";
 import { FileInput } from "../../../../shared/styleguide/Inputs/FileInput/FileInput";
+import { FiX } from "react-icons/fi";
+import { useFileContext } from "../../context/FileProvider";
 
 const initialValues = {
   name: "",
@@ -47,10 +49,15 @@ interface FormikValues {
   file: File | null;
 }
 
-const CreateFile = () => {
+interface CreateFileProps {
+  openModal: boolean;
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const CreateFile = ({ openModal, setOpenModal }: CreateFileProps) => {
   initialValues.file;
   const [loading, setLoading] = useState(false);
-  // const { dispatch } = useFileContext();
+  const { dispatch } = useFileContext();
 
   const [requestError, setRequestError] = useState<string | undefined>("");
   const [requestSuccess, setRequestSuccess] = useState<string | undefined>("");
@@ -74,10 +81,6 @@ const CreateFile = () => {
   const handleCreate = async ({ name, type, file }: FormikValues) => {
     try {
       setLoading(true);
-
-      console.log("name", name);
-      console.log("type", type);
-      console.log("file", file);
       const createBody = new FormData();
       createBody.append("name", name);
       createBody.append("type", type);
@@ -93,6 +96,15 @@ const CreateFile = () => {
       );
 
       const created = response.status === 201;
+
+      if (created) {
+        setOpenModal(false);
+
+        dispatch({
+          type: "ADD_FILE",
+          payload: response.data,
+        });
+      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -100,11 +112,21 @@ const CreateFile = () => {
     }
   };
 
+  if (!openModal) {
+    return <></>;
+  }
+
   return (
     <>
       <div className="opacity-40 bg-black inset-0 fixed z-[1]"></div>
 
-      <div className="absolute p-10 bg-white rounded-lg shadow-lg z-[1]">
+      <div className="absolute p-5 bg-white rounded-lg shadow-lg z-[1]">
+        <div className="flex justify-between items-center mb-4">
+          <div className="font-semibold text-xl">Cadastrar</div>
+          <div className="cursor-pointer" onClick={() => setOpenModal(false)}>
+            <FiX size={24} />
+          </div>
+        </div>
         <Formik
           initialValues={initialValues}
           onSubmit={handleCreate}

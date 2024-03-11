@@ -4,19 +4,24 @@ import { useFileContext } from "../../context/FileProvider";
 import { Button } from "../../../../shared/styleguide/Button/Button";
 import { Link } from "react-router-dom";
 import { CreateFile } from "./CreateFile";
+import { useState } from "react";
 
 const DocumentsTable = () => {
   const { files } = useFileContext();
+  const [openModal, setOpenModal] = useState(false);
 
   return (
-    <div className="relative overflow-x-auto sm:rounded-lg p-4 w-full">
-      <CreateFile></CreateFile>
+    <div className="overflow-x-auto sm:rounded-lg p-4 w-full">
+      <CreateFile
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+      ></CreateFile>
       <div className="flex justify-between items-center mb-4 mt-2 gap-4">
         <div className=" bg-white dark:bg-gray-900 shadow-md w-full rounded-lg">
           <label htmlFor="table-search" className="sr-only">
             Search
           </label>
-          <div className="relative  w-full ">
+          <div className="w-full ">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none w-full">
               <svg
                 className="w-4 h-4 text-gray-500 dark:text-gray-400"
@@ -42,11 +47,8 @@ const DocumentsTable = () => {
             />
           </div>
         </div>
-        <Button apperance="primary">
-          <Link className="text-sm" to={"/education/create"}>
-            {" "}
-            Criar
-          </Link>
+        <Button apperance="primary" onClick={() => setOpenModal(true)}>
+          Criar
         </Button>
       </div>
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 shadow-md">
@@ -79,12 +81,6 @@ const DocumentsTable = () => {
                 <td className="">
                   <DeleteFile file={item} />
                 </td>
-                {/* <td className="">
-                  <DownloadFile file={item} />
-                </td>
-                <td className="">
-                  <DownloadFile file={item} />
-                </td> */}
               </tr>
             );
           })}
