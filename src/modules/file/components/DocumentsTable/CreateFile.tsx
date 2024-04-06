@@ -7,20 +7,17 @@ import { TextInput } from "../../../../shared/styleguide/Inputs/TextInput/TextIn
 import { ErrorMessage } from "../../../../shared/styleguide/Inputs/ErrorMessage/ErrorMessage";
 import { SuccessMessage } from "../../../../shared/styleguide/Inputs/SuccessMessage/SuccessMessage";
 import { Button } from "../../../../shared/styleguide/Button/Button";
-import { Link } from "react-router-dom";
 import { FileInput } from "../../../../shared/styleguide/Inputs/FileInput/FileInput";
 import { FiX } from "react-icons/fi";
 import { useFileContext } from "../../context/FileProvider";
 
 const initialValues = {
   name: "",
-  type: "",
   file: null,
 };
 
 const schema = Yup.object().shape({
   name: Yup.string().required("Digite uma nome válido"),
-  type: Yup.string().required("Digite um tipo válido"),
 
   file: Yup.mixed()
     .required("Insira um arquivo")
@@ -45,7 +42,6 @@ const schema = Yup.object().shape({
 
 interface FormikValues {
   name: string;
-  type: string;
   file: File | null;
 }
 
@@ -55,7 +51,6 @@ interface CreateFileProps {
 }
 
 const CreateFile = ({ openModal, setOpenModal }: CreateFileProps) => {
-  initialValues.file;
   const [loading, setLoading] = useState(false);
   const { dispatch } = useFileContext();
 
@@ -78,12 +73,11 @@ const CreateFile = ({ openModal, setOpenModal }: CreateFileProps) => {
     }
   }, [requestSuccess]);
 
-  const handleCreate = async ({ name, type, file }: FormikValues) => {
+  const handleCreate = async ({ name, file }: FormikValues) => {
     try {
       setLoading(true);
       const createBody = new FormData();
       createBody.append("name", name);
-      createBody.append("type", type);
 
       if (file) {
         createBody.append("file", file);
@@ -120,7 +114,7 @@ const CreateFile = ({ openModal, setOpenModal }: CreateFileProps) => {
     <>
       <div className="opacity-40 bg-black inset-0 fixed z-[1]"></div>
 
-      <div className="absolute p-5 bg-white rounded-lg shadow-lg z-[1]">
+      <div className="absolute p-5 bg-white rounded-lg shadow-lg z-[1] max-w-xl w-full left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <div className="flex justify-between items-center mb-4">
           <div className="font-semibold text-xl">Cadastrar</div>
           <div className="cursor-pointer" onClick={() => setOpenModal(false)}>
@@ -146,18 +140,6 @@ const CreateFile = ({ openModal, setOpenModal }: CreateFileProps) => {
                       />
                     )}
                   </Field>
-                  <div className="mt-4">
-                    <Field name="type">
-                      {({ field, meta }: FieldProps) => (
-                        <TextInput
-                          label="Digite o tipo do documento:"
-                          {...field}
-                          value={field.value}
-                          error={meta.touched ? meta.error : ""}
-                        />
-                      )}
-                    </Field>
-                  </div>
                 </div>
                 <div className="mt-4">
                   <Field name="file">
@@ -182,12 +164,7 @@ const CreateFile = ({ openModal, setOpenModal }: CreateFileProps) => {
                 )}
               </>
 
-              <div className="flex justify-between mt-4">
-                <Button compact apperance="link" size="sm">
-                  <Link to="/education" className="text-link">
-                    Voltar
-                  </Link>
-                </Button>
+              <div className="flex justify-end mt-4">
                 <Button
                   loading={loading}
                   apperance="primary"

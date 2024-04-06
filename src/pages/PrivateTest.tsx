@@ -4,7 +4,7 @@ export const PrivateTest = () => {
   return (
     <div className="flex min-h-screen">
       <SideBar />
-      <div>PrivateTestPrivateTestPrivateTest PrivateTest</div>
+      <div></div>
     </div>
   );
 };
