@@ -5,8 +5,8 @@ import { Register } from "./pages/Register";
 import { AuthProvider } from "./modules/auth/context/AuthContext";
 import { ProtectedRoute } from "./shared/utils/ProtectedRoute";
 import { PrivateTest } from "./pages/PrivateTest";
-import { Education } from "./pages/Education";
-import { CreateDocumentPage } from "./pages/CreateDocumentPage";
+import { TeacherPage } from "./pages/TeacherPage";
+import { DocumentsPage } from "./pages/DocumentsPage";
 
 function Router() {
   return (
@@ -15,15 +15,15 @@ function Router() {
     <AuthProvider>
       <div className="flex min-h-screen w-full bg-gray-200">
         <Routes>
-          <Route path="/" element={<Navigate to="/olaa" replace />} />
+          <Route path="/" element={<Navigate to="/home" replace />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
           {/* Rotas protegidas */}
           <Route element={<ProtectedRoute />}>
-            <Route path="/olaa" element={<PrivateTest />} />
-            <Route path="/education" element={<Education />} />
-            <Route path="/education/create" element={<CreateDocumentPage />} />
+            <Route path="/home" element={<PrivateTest />} />
+            <Route path="/documentos" element={<DocumentsPage />} />
+            <Route path="/docentes" element={<TeacherPage />} />
           </Route>
         </Routes>
       </div>

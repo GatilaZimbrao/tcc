@@ -1,18 +1,23 @@
 import { useEffect, useState } from "react";
 import { FiTrash } from "react-icons/fi";
 import { api } from "../../../../shared/clients/APIClient";
-import { File, GetFileResponse, ListFileResponse } from "../../typings/file";
+import {
+  Teacher,
+  GetTeacherResponse,
+  ListTeacherResponse,
+} from "../../typings/teacher";
 import { Spinner } from "../../../../shared/styleguide/Spinner/Spinner";
-import { useFileContext } from "../../context/FileProvider";
+import { useTeacherContext } from "../../context/TeacherProvider";
+import Modal from "../../../../shared/styleguide/Modal/Modal";
 import ModalConfirmation from "../../../../shared/styleguide/Modal/ModalConfirmation";
 
-interface DocumentsTableProps {
-  file: File;
+interface DeleteTeacherProps {
+  teacher: Teacher;
 }
 
-const DeleteFile = ({ file }: DocumentsTableProps) => {
+const DeleteTeacher = ({ teacher }: DeleteTeacherProps) => {
   const [loading, setLoading] = useState(false);
-  const { dispatch } = useFileContext();
+  const { dispatch } = useTeacherContext();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -27,9 +32,9 @@ const DeleteFile = ({ file }: DocumentsTableProps) => {
   const handleDelete = async () => {
     try {
       setLoading(true);
-      api.delete(`/file/delete/${file.id}`).then((response) => {
+      api.delete(`/teacher/${teacher.id}`).then((response) => {
         if (response.status === 200) {
-          dispatch({ type: "REMOVE_FILE", payload: file.id });
+          dispatch({ type: "REMOVE_TEACHER", payload: teacher.id });
         }
       });
     } catch (error) {
@@ -44,13 +49,13 @@ const DeleteFile = ({ file }: DocumentsTableProps) => {
       <ModalConfirmation
         isOpen={isOpen}
         onClose={handleCloseModal}
-        message="Deseja excluir esse arquivo?"
+        message="Deseja excluir esse docente?"
         cancelText="Cancelar"
         confirmText="Confirmar"
         onConfirm={handleDelete}
       />
       <button
-        className="p-4 shadow-md bg-gray-50 flex cursor-pointer rounded"
+        className="p-4 shadow-md bg-gray-50 cursor-pointer rounded"
         onClick={loading ? () => {} : handleOpenModal}
       >
         {loading ? <Spinner /> : <FiTrash />}
@@ -59,4 +64,4 @@ const DeleteFile = ({ file }: DocumentsTableProps) => {
   );
 };
 
-export { DeleteFile };
+export { DeleteTeacher };

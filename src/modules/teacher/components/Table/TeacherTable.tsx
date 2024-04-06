@@ -1,21 +1,18 @@
-import { DownloadFile } from "./DownloadFile";
-import { DeleteFile } from "./DeleteFile";
-import { useFileContext } from "../../context/FileProvider";
 import { Button } from "../../../../shared/styleguide/Button/Button";
-import { Link } from "react-router-dom";
-import { CreateFile } from "./CreateFile";
+import { CreateTeacher } from "./CreateTeacher";
 import { useState } from "react";
+import { useTeacherContext } from "../../context/TeacherProvider";
+import { Link } from "react-router-dom";
+import TeacherImage from "./TeacherImage";
+import { DeleteTeacher } from "./DeleteTeacher";
+import Modal from "../../../../shared/styleguide/Modal/Modal";
+import { UpdateTeacher } from "./UpdateTeacher";
 
-const DocumentsTable = () => {
-  const { files } = useFileContext();
-  const [openModal, setOpenModal] = useState(false);
+const TeacherTable = () => {
+  const { teachers } = useTeacherContext();
 
   return (
     <div className="overflow-x-auto sm:rounded-lg p-4 w-full">
-      <CreateFile
-        openModal={openModal}
-        setOpenModal={setOpenModal}
-      ></CreateFile>
       <div className="flex justify-between items-center mb-4 mt-2 gap-4">
         <div className=" bg-white dark:bg-gray-900 shadow-md w-full rounded-lg relative">
           <label htmlFor="table-search" className="sr-only">
@@ -47,15 +44,23 @@ const DocumentsTable = () => {
             />
           </div>
         </div>
-        <Button apperance="primary" onClick={() => setOpenModal(true)}>
-          Criar
-        </Button>
+
+        <CreateTeacher />
       </div>
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 shadow-md">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" className="px-6 py-3">
-              Nome do Arquivo
+              Foto
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Nome
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Formação
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Link Lattes
             </th>
             <th scope="col" colSpan={1} className="px-6 py-3">
               Ações
@@ -63,7 +68,7 @@ const DocumentsTable = () => {
           </tr>
         </thead>
         <tbody>
-          {files.map((item) => {
+          {teachers.map((item) => {
             return (
               <tr
                 key={`documents-table-${item.id}`}
@@ -73,14 +78,39 @@ const DocumentsTable = () => {
                   scope="row"
                   className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
+                  <TeacherImage
+                    src={item.image}
+                    alt={`${item.name}-foto`}
+                  ></TeacherImage>
+                </td>
+                <td
+                  scope="row"
+                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
                   {item.name}
                 </td>
-                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap flex">
-                  <span className=" mr-1">
-                    <DownloadFile file={item} />
+                <td
+                  scope="row"
+                  className="px-6 py-4 font-normal text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                  {item.education}
+                </td>
+                <td
+                  scope="row"
+                  className="px-6 py-4 font-normal text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                  <Link to={item.linkLattes} target="_blank">
+                    <span className="text-link">{item.linkLattes}</span>
+                  </Link>
+                </td>
+
+                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  <span className="mr-2">
+                    <DeleteTeacher teacher={item} />
                   </span>
+
                   <span>
-                    <DeleteFile file={item} />
+                    <UpdateTeacher teacher={item} />
                   </span>
                 </td>
               </tr>
@@ -92,4 +122,4 @@ const DocumentsTable = () => {
   );
 };
 
-export { DocumentsTable };
+export { TeacherTable };

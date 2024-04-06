@@ -16,12 +16,50 @@ const SideBar = () => {
           Inicio
         </Button>
         <Button apperance="menu" block>
-          <Link to={"/education"} className="block w-full text-left">
-            Ensino
+          <Link to={"/documentos"} className="block w-full text-left">
+            Documentos
           </Link>
         </Button>
         <Button apperance="menu" block>
-          Teste 2
+          <Link to={"/docentes"} className="block w-full text-left">
+            Docentes
+          </Link>
+        </Button>
+        <Button apperance="menu" block>
+          <Link
+            to={"http://www.cefet-rj.br/index.php/2015-06-12-17-56-40"}
+            target="_blank"
+            className="block w-full text-left"
+          >
+            Manual do aluno
+          </Link>
+        </Button>
+        <Button apperance="menu" block>
+          <Link
+            to={"http://www.cefet-rj.br/index.php/horarios"}
+            target="_blank"
+            className="block w-full text-left"
+          >
+            Horários
+          </Link>
+        </Button>
+        <Button apperance="menu" block>
+          <Link
+            to={"http://www.cefet-rj.br/index.php/calendarios"}
+            target="_blank"
+            className="block w-full text-left"
+          >
+            Calendário
+          </Link>
+        </Button>
+        <Button apperance="menu" block>
+          <Link
+            to={"https://alunos.cefet-rj.br/aluno/login.action"}
+            target="_blank"
+            className="block w-full text-left"
+          >
+            Portal do Aluno
+          </Link>
         </Button>
       </div>
       <div className="sidebar--footer ">
