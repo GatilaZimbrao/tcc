@@ -19,6 +19,7 @@ import {
   SessionResponse,
 } from "../typings/auth";
 import { SESSION_TOKEN } from "../../../shared/constants/cookies";
+import { ROLES } from "../typings/roles";
 
 const { ERR_BAD_REQUEST, ERR_NETWORK } = AxiosError;
 
@@ -36,6 +37,7 @@ export type LoginResult = {
 
 export interface AuthContext {
   isAuthenticated: boolean;
+  isAdmin: boolean;
   loading: boolean;
   user?: User;
   initialValidate: boolean;
@@ -59,12 +61,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const validateSession = async () => {
     setLoading(true);
     try {
-      const sessionToken = Cookies.get(SESSION_TOKEN);
-      const response = await api.get<SessionResponse>("/auth/session", {
-        headers: {
-          Authorization: sessionToken,
-        },
-      });
+      const response = await api.get<SessionResponse>("/auth/session");
       const authenticated = response.status === 200;
 
       if (authenticated) {
@@ -167,8 +164,11 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const isAuthenticated = !!user && !loading;
 
+  const isAdmin = !!user && !loading && user.role == ROLES.admin;
+
   const authContext = {
     isAuthenticated,
+    isAdmin,
     loading,
     user,
     initialValidate,

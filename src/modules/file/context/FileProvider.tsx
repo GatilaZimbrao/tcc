@@ -75,7 +75,7 @@ export const FileProvider: React.FC<{ children: React.ReactNode }> = ({
     const fetchFiles = async () => {
       try {
         dispatch({ type: "SET_LOADING", payload: true });
-        const response = await api.get<ListFileResponse>("/file/list");
+        const response = await api.get<ListFileResponse>("/file");
 
         const success = response.status === 200;
 

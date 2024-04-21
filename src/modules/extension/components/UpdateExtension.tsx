@@ -1,48 +1,41 @@
 import { useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
-import { api } from "../../../../shared/clients/APIClient";
-import {
-  Teacher,
-  GetTeacherResponse,
-  ListTeacherResponse,
-  UpdateTeacherResponse,
-} from "../../typings/teacher";
-import { Spinner } from "../../../../shared/styleguide/Spinner/Spinner";
-import { useTeacherContext } from "../../context/TeacherProvider";
-import Modal from "../../../../shared/styleguide/Modal/Modal";
-import { Field, FieldProps, Form, Formik } from "formik";
-import { TextInput } from "../../../../shared/styleguide/Inputs/TextInput/TextInput";
-import { CustomSelect } from "../../../../shared/styleguide/Inputs/CustomSelect/CustomSelect";
-import { ErrorMessage } from "../../../../shared/styleguide/Inputs/ErrorMessage/ErrorMessage";
-import { SuccessMessage } from "../../../../shared/styleguide/Inputs/SuccessMessage/SuccessMessage";
-import { Button } from "../../../../shared/styleguide/Button/Button";
+
 import * as Yup from "yup";
+import { Extension, UpdateExtensionResponse } from "../typings/extension";
+import { useExtensionContext } from "../context/ExtensionProvider";
+import { api } from "../../../shared/clients/APIClient";
+import Modal from "../../../shared/styleguide/Modal/Modal";
+import { Field, FieldProps, Form, Formik } from "formik";
+import { TextInput } from "../../../shared/styleguide/Inputs/TextInput/TextInput";
+import { ErrorMessage } from "../../../shared/styleguide/Inputs/ErrorMessage/ErrorMessage";
+import { SuccessMessage } from "../../../shared/styleguide/Inputs/SuccessMessage/SuccessMessage";
+import { Button } from "../../../shared/styleguide/Button/Button";
+import { Spinner } from "../../../shared/styleguide/Spinner/Spinner";
 
 const schema = Yup.object().shape({
   name: Yup.string().required("Digite uma nome válido"),
-  image: Yup.string().required("Insira o link para a foto"),
-  education: Yup.string().required("Digite uma formação"),
-  linkLattes: Yup.string().required(
-    "Insira o link para o currículo Lattes do docente"
-  ),
-  type: Yup.string().required("Digite um tipo válido"),
+  abstract: Yup.string().required("Digite uma resumo válido"),
+  email: Yup.string().email().required("Digite um email válido"),
+  site: Yup.string(),
+  teacherId: Yup.number().required("Selecione um professor"),
 });
 
 interface FormikValues {
   name: string;
-  image: string;
-  education: string;
-  linkLattes: string;
-  type: string;
+  abstract: string;
+  email: string;
+  site: string;
+  teacherId: number;
 }
 
-interface UpdateTeacherProps {
-  teacher: Teacher;
+interface UpdateExtensionProps {
+  extension: Extension;
 }
 
-const UpdateTeacher = ({ teacher }: UpdateTeacherProps) => {
+const UpdateExtension = ({ extension }: UpdateExtensionProps) => {
   const [loading, setLoading] = useState(false);
-  const { dispatch } = useTeacherContext();
+  const { dispatch } = useExtensionContext();
 
   const [requestError, setRequestError] = useState<string | undefined>("");
   const [requestSuccess, setRequestSuccess] = useState<string | undefined>("");
@@ -75,24 +68,25 @@ const UpdateTeacher = ({ teacher }: UpdateTeacherProps) => {
 
   const handleUpdate = async ({
     name,
-    image,
-    education,
-    linkLattes,
-    type,
+    abstract,
+    email,
+    site,
+    teacherId,
   }: FormikValues) => {
     try {
       setLoading(true);
 
       const data = {
         name,
-        image,
-        education,
-        linkLattes,
-        type,
+        abstract,
+        email,
+        site,
+        type: extension.type,
+        teacherId,
       };
 
-      const response = await api.put<UpdateTeacherResponse>(
-        `/teacher/${teacher.id}`,
+      const response = await api.put<UpdateExtensionResponse>(
+        `/extension/${extension.id}`,
         data
       );
 
@@ -102,9 +96,8 @@ const UpdateTeacher = ({ teacher }: UpdateTeacherProps) => {
         handleCloseModal();
 
         location.reload();
-
         // dispatch({
-        //   type: "ADD_TEACHER",
+        //   type: "ADD_CONTACT",
         //   payload: response.data,
         // });
       }
@@ -116,11 +109,11 @@ const UpdateTeacher = ({ teacher }: UpdateTeacherProps) => {
   };
 
   const initialValues = {
-    name: teacher.name,
-    image: teacher.image,
-    education: teacher.education,
-    linkLattes: teacher.linkLattes,
-    type: teacher.type,
+    name: extension.name,
+    abstract: extension.abstract,
+    email: extension.email,
+    site: extension.site,
+    teacherId: extension.teacherId,
   };
 
   return (
@@ -142,7 +135,7 @@ const UpdateTeacher = ({ teacher }: UpdateTeacherProps) => {
                     <Field name="name">
                       {({ field, meta }: FieldProps) => (
                         <TextInput
-                          label="Nome completo do docente:"
+                          label="Nome para contato:"
                           {...field}
                           value={field.value}
                           error={meta.touched ? meta.error : ""}
@@ -150,10 +143,10 @@ const UpdateTeacher = ({ teacher }: UpdateTeacherProps) => {
                       )}
                     </Field>
                     <div className="mt-4">
-                      <Field name="image">
+                      <Field name="email">
                         {({ field, meta }: FieldProps) => (
                           <TextInput
-                            label="Insira o link para uma foto do docente:"
+                            label="Email para contato:"
                             {...field}
                             value={field.value}
                             error={meta.touched ? meta.error : ""}
@@ -162,46 +155,14 @@ const UpdateTeacher = ({ teacher }: UpdateTeacherProps) => {
                       </Field>
                     </div>
                     <div className="mt-4">
-                      <Field name="education">
+                      <Field name="tel">
                         {({ field, meta }: FieldProps) => (
                           <TextInput
-                            label="Insira a formação do docente:"
+                            label="Telefone para contato:"
                             {...field}
                             value={field.value}
                             error={meta.touched ? meta.error : ""}
                           />
-                        )}
-                      </Field>
-                    </div>{" "}
-                    <div className="mt-4">
-                      <Field name="linkLattes">
-                        {({ field, meta }: FieldProps) => (
-                          <TextInput
-                            label="Link para o currículo Lattes do docente:"
-                            {...field}
-                            value={field.value}
-                            error={meta.touched ? meta.error : ""}
-                          />
-                        )}
-                      </Field>
-                    </div>
-                    <div className="mt-4">
-                      <Field name="type">
-                        {({ field, meta }: FieldProps) => (
-                          <div>
-                            <CustomSelect
-                              label="Selecione o tipo do docente:"
-                              initialValue={initialValues.type}
-                              options={["colegiado", "colaborador"]}
-                              field={field}
-                              error={meta.error}
-                            />
-                            {meta.touched && meta.error && (
-                              <div className="text-red-500 text-sm">
-                                {meta.error}
-                              </div>
-                            )}
-                          </div>
                         )}
                       </Field>
                     </div>
@@ -235,13 +196,13 @@ const UpdateTeacher = ({ teacher }: UpdateTeacherProps) => {
         }
       />
       <button
-        className="p-4 shadow-md bg-gray-50 cursor-pointer rounded"
+        className="p-2 shadow-md bg-gray-50 cursor-pointer rounded"
         onClick={loading ? () => {} : handleOpenModal}
       >
-        {loading ? <Spinner /> : <FiEdit />}
+        {loading ? <Spinner /> : <FiEdit size={16} />}
       </button>
     </>
   );
 };
 
-export { UpdateTeacher };
+export { UpdateExtension };

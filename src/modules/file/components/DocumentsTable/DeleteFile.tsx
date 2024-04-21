@@ -27,7 +27,7 @@ const DeleteFile = ({ file }: DocumentsTableProps) => {
   const handleDelete = async () => {
     try {
       setLoading(true);
-      api.delete(`/file/delete/${file.id}`).then((response) => {
+      api.delete(`/file/${file.id}`).then((response) => {
         if (response.status === 200) {
           dispatch({ type: "REMOVE_FILE", payload: file.id });
         }

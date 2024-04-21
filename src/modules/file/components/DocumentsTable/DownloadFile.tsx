@@ -15,7 +15,7 @@ const DownloadFile = ({ file }: DocumentsTableProps) => {
     try {
       setLoading(true);
       api
-        .get(`/file/find/${file.id}`, {
+        .get(`/file/${file.id}`, {
           responseType: "blob",
         })
         .then((response) => {

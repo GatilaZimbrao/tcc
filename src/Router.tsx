@@ -7,6 +7,8 @@ import { ProtectedRoute } from "./shared/utils/ProtectedRoute";
 import { PrivateTest } from "./pages/PrivateTest";
 import { TeacherPage } from "./pages/TeacherPage";
 import { DocumentsPage } from "./pages/DocumentsPage";
+import { ContactPage } from "./pages/ContactPage";
+import { ProgramPage } from "./pages/ProgramPage";
 
 function Router() {
   return (
@@ -24,6 +26,10 @@ function Router() {
             <Route path="/home" element={<PrivateTest />} />
             <Route path="/documentos" element={<DocumentsPage />} />
             <Route path="/docentes" element={<TeacherPage />} />
+            <Route path="/contato" element={<ContactPage />} />
+
+            <Route path="/programas" element={<ProgramPage />} />
+            <Route path="/projetos" element={<ContactPage />} />
           </Route>
         </Routes>
       </div>

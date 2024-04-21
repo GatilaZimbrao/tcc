@@ -82,12 +82,8 @@ const CreateFile = ({ openModal, setOpenModal }: CreateFileProps) => {
       if (file) {
         createBody.append("file", file);
       }
-      // createBody.append("file", fileInput.files[0]);
 
-      const response = await api.post<CreateFileResponse>(
-        "/file/create",
-        createBody
-      );
+      const response = await api.post<CreateFileResponse>("/file", createBody);
 
       const created = response.status === 201;
 

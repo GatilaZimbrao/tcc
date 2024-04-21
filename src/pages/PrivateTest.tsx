@@ -1,4 +1,4 @@
-import { SideBar } from "../shared/components/SideBar/SideBar";
+import { SideBar } from "../shared/components/SideBar";
 
 export const PrivateTest = () => {
   return (
