@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 
 import * as Yup from "yup";
-import { Extension, UpdateExtensionResponse } from "../typings/extension";
+import { Extension, CreateExtensionResponse } from "../typings/extension";
 import { useExtensionContext } from "../context/ExtensionProvider";
 import { api } from "../../../shared/clients/APIClient";
 import Modal from "../../../shared/styleguide/Modal/Modal";
@@ -13,6 +13,16 @@ import { SuccessMessage } from "../../../shared/styleguide/Inputs/SuccessMessage
 import { Button } from "../../../shared/styleguide/Button/Button";
 import { Spinner } from "../../../shared/styleguide/Spinner/Spinner";
 import { CustomSelect } from "../../../shared/styleguide/Inputs/CustomSelect/CustomSelect";
+import { ExtensionTypes } from "../typings/extensionTypes";
+import { Teacher } from "../../teacher/typings/teacher";
+
+const initialValues = {
+  name: "",
+  abstract: "",
+  email: "",
+  site: "",
+  teacherId: null,
+};
 
 const schema = Yup.object().shape({
   name: Yup.string().required("Digite uma nome válido"),
@@ -27,21 +37,43 @@ interface FormikValues {
   abstract: string;
   email: string;
   site: string;
-  teacherId: number;
+  teacherId: number | null;
 }
 
-interface UpdateExtensionProps {
-  extension: Extension;
+interface CreateExtensionProps {
+  type: ExtensionTypes;
 }
 
-const UpdateExtension = ({ extension }: UpdateExtensionProps) => {
+const CreateExtension = ({ type }: CreateExtensionProps) => {
   const [loading, setLoading] = useState(false);
+  const [teachers, setTeachers] = useState<Teacher[]>([]);
+
   const { dispatch } = useExtensionContext();
 
   const [requestError, setRequestError] = useState<string | undefined>("");
   const [requestSuccess, setRequestSuccess] = useState<string | undefined>("");
 
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const fetchTeachers = async () => {
+      try {
+        const response = await api.get("/teacher");
+        if (response.status === 200) {
+          setTeachers(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching teachers:", error);
+      }
+    };
+
+    fetchTeachers();
+  }, []);
+
+  useEffect(() => {
+    console.log("teachers");
+    console.log(teachers);
+  }, [teachers]);
 
   useEffect(() => {
     if (requestError) {
@@ -67,7 +99,7 @@ const UpdateExtension = ({ extension }: UpdateExtensionProps) => {
     setIsOpen(false);
   };
 
-  const handleUpdate = async ({
+  const handleCreate = async ({
     name,
     abstract,
     email,
@@ -82,39 +114,30 @@ const UpdateExtension = ({ extension }: UpdateExtensionProps) => {
         abstract,
         email,
         site,
-        type: extension.type,
+        type: type,
         teacherId,
       };
 
-      const response = await api.put<UpdateExtensionResponse>(
-        `/extension/${extension.id}`,
+      const response = await api.post<CreateExtensionResponse>(
+        `/extension`,
         data
       );
 
-      const updated = response.status === 200;
+      const created = response.status === 201;
 
-      if (updated) {
+      if (created) {
         handleCloseModal();
 
-        location.reload();
-        // dispatch({
-        //   type: "ADD_EXTENSION",
-        //   payload: response.data,
-        // });
+        dispatch({
+          type: "ADD_EXTENSION",
+          payload: response.data,
+        });
       }
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
     }
-  };
-
-  const initialValues = {
-    name: extension.name,
-    abstract: extension.abstract,
-    email: extension.email,
-    site: extension.site,
-    teacherId: extension.teacherId,
   };
 
   return (
@@ -126,7 +149,7 @@ const UpdateExtension = ({ extension }: UpdateExtensionProps) => {
         children={
           <Formik
             initialValues={initialValues}
-            onSubmit={handleUpdate}
+            onSubmit={handleCreate}
             validationSchema={schema}
           >
             {({}) => (
@@ -189,11 +212,13 @@ const UpdateExtension = ({ extension }: UpdateExtensionProps) => {
                           <div>
                             <CustomSelect
                               label="Selecione o docente do programa:"
-                              options={["colegiado", "colaborador"].map(
-                                (type) => {
-                                  return { label: type, value: type };
-                                }
-                              )}
+                              // options={["colegiado", "colaborador"]}
+                              options={teachers.map((teacher) => {
+                                return {
+                                  value: teacher.id,
+                                  label: teacher.name,
+                                };
+                              })}
                               field={field}
                               error={meta.error}
                             />
@@ -235,14 +260,14 @@ const UpdateExtension = ({ extension }: UpdateExtensionProps) => {
           </Formik>
         }
       />
-      <button
-        className="p-4 shadow-md bg-gray-50 cursor-pointer rounded"
+      <Button
+        apperance="primary"
         onClick={loading ? () => {} : handleOpenModal}
       >
-        {loading ? <Spinner /> : <FiEdit />}
-      </button>
+        {loading ? <Spinner /> : "Criar"}
+      </Button>
     </>
   );
 };
 
-export { UpdateExtension };
+export { CreateExtension };

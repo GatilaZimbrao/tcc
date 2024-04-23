@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { Extension, ListExtensionResponse } from "../typings/extension";
 import { api } from "../../../shared/clients/APIClient";
+import { ExtensionTypes } from "../typings/extensionTypes";
 
 interface ExtensionState {
   extensions: Extension[];
@@ -64,9 +65,10 @@ const extensionReducer = (
   }
 };
 
-export const ExtensionProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const ExtensionProvider: React.FC<{
+  children: React.ReactNode;
+  extensionType: ExtensionTypes;
+}> = ({ children, extensionType }) => {
   const initialState: ExtensionState = {
     extensions: [],
     loading: false,
@@ -77,7 +79,9 @@ export const ExtensionProvider: React.FC<{ children: React.ReactNode }> = ({
     const fetchExtensions = async () => {
       try {
         dispatch({ type: "SET_LOADING", payload: true });
-        const response = await api.get<ListExtensionResponse>("/extension");
+        const response = await api.get<ListExtensionResponse>(
+          `/extension?type=${extensionType}`
+        );
 
         const success = response.status === 200;
 

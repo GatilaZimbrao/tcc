@@ -68,8 +68,7 @@ const menu: NavbarItemProps[] = [
     items: [
       {
         label: "Programas",
-        external: true,
-        link: "https://www.cefet-rj.br/arquivos_download/instituicao/cepe/outros/regulamento_cepe.pdf",
+        link: "/programas",
       },
       {
         label: "Projetos",

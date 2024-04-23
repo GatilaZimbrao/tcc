@@ -3,9 +3,14 @@ import { FieldProps } from "formik";
 import React, { useState } from "react";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 
+interface Option {
+  value: string | number;
+  label: string;
+}
+
 interface Props {
   label: string;
-  options: string[];
+  options: Option[];
   field: FieldProps["field"];
   initialValue?: string;
   error?: string;
@@ -23,12 +28,11 @@ export const CustomSelect: React.FC<Props> = ({
     initialValue ?? null
   );
 
-  const handleOptionClick = (option: string) => {
-    setSelectedOption(option);
+  const handleOptionClick = (option: Option) => {
+    setSelectedOption(option.label);
     setIsOpen(false);
 
-    field.onChange({ target: { value: option, name: field.name } });
-    field.onBlur({ target: { value: option, name: field.name } });
+    field.onChange({ target: { value: option.value, name: field.name } });
   };
 
   const containerClasses = classNames("w-full", {
@@ -69,16 +73,17 @@ export const CustomSelect: React.FC<Props> = ({
           </span>
         </div>
         {isOpen && (
-          <ul className="absolute w-full z-10 top-full left-0 bg-white border border-gray-300 rounded-md text-sm text-gray-900">
+          <ul className="absolute w-full max-h-36 overflow-y-auto z-10 top-full left-0 bg-white border border-gray-300 rounded-md text-sm text-gray-900">
             {options.map((option) => (
               <li
-                key={option}
+                key={option.value}
                 onClick={() => handleOptionClick(option)}
                 className={`cursor-pointer hover:bg-gray-100 px-3 py-2 text-sm text-gray-900 capitalize ${
-                  selectedOption == option && "bg-brand-100 hover:bg-brand-100"
+                  selectedOption == option.value &&
+                  "bg-brand-100 hover:bg-brand-100"
                 }`}
               >
-                {option}
+                {option.label}
               </li>
             ))}
           </ul>

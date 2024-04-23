@@ -1,24 +1,26 @@
 import { MainComponent } from "../shared/components/MainComponent";
 import { SideBar } from "../shared/components/SideBar";
 
-import { ContactProvider } from "../modules/contact/context/ContactProvider";
-import { ContactTable } from "../modules/contact/components/ContactTable";
+import { ExtensionProvider } from "../modules/extension/context/ExtensionProvider";
+import { ExtensionTable } from "../modules/extension/components/ExtensionTable";
 
 export const ProgramPage = () => {
   return (
     <div className="flex min-h-screen w-full">
       <SideBar />
       <MainComponent>
-        <h1 className="w-full text-center text-gray-500">Programa</h1>
+        <h1 className="w-full text-center text-gray-500">
+          Programas de Extensão
+        </h1>
 
         <p className="w-full text-center mt-4 mb-6 text-gray-500 text-xl">
           Se você tem alguma dúvida, sugestão, ou deseja mais informações, Entre
           em contato.
         </p>
 
-        <ContactProvider>
-          <ContactTable />
-        </ContactProvider>
+        <ExtensionProvider extensionType="program">
+          <ExtensionTable type="program" />
+        </ExtensionProvider>
       </MainComponent>
     </div>
   );

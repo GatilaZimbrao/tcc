@@ -6,7 +6,7 @@ export interface Extension {
   site: string;
   type: string;
   teacherId: number;
-  // teacher       Teacher @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  teacher: Teacher;
 }
 
 export type ListExtensionResponse = Extension[];

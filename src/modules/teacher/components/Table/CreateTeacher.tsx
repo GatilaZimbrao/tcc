@@ -177,7 +177,11 @@ const CreateTeacher = () => {
                           <div>
                             <CustomSelect
                               label="Selecione o tipo do docente:"
-                              options={["colegiado", "colaborador"]}
+                              options={["colegiado", "colaborador"].map(
+                                (type) => {
+                                  return { label: type, value: type };
+                                }
+                              )}
                               field={field}
                               error={meta.error}
                             />

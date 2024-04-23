@@ -192,7 +192,11 @@ const UpdateTeacher = ({ teacher }: UpdateTeacherProps) => {
                             <CustomSelect
                               label="Selecione o tipo do docente:"
                               initialValue={initialValues.type}
-                              options={["colegiado", "colaborador"]}
+                              options={["colegiado", "colaborador"].map(
+                                (type) => {
+                                  return { label: type, value: type };
+                                }
+                              )}
                               field={field}
                               error={meta.error}
                             />

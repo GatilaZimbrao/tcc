@@ -12,18 +12,28 @@
 
 import { AdminOnly } from "../../../shared/utils/IsAdmin";
 import { useExtensionContext } from "../context/ExtensionProvider";
+import { ExtensionTypes } from "../typings/extensionTypes";
+import { CreateExtension } from "./CreateExtension";
+import { DeleteExtension } from "./DeleteExtension";
+import SearchExtension from "./SearchExtension";
+import { UpdateExtension } from "./UpdateExtension";
+import { ViewExtension } from "./ViewExtension";
 
-const ExtensionTable = () => {
+interface ExtensionTableProps {
+  type: ExtensionTypes;
+}
+
+const ExtensionTable = ({ type }: ExtensionTableProps) => {
   const { extensions } = useExtensionContext();
 
   return (
     <div className="overflow-x-auto sm:rounded-lg p-4 w-full">
       <div className="flex justify-between items-center mb-4 mt-2 gap-4">
-        {/* <SearchExtension />
+        <SearchExtension />
 
         <AdminOnly>
-          <CreateExtension />
-        </AdminOnly> */}
+          <CreateExtension type={type} />
+        </AdminOnly>
       </div>
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 shadow-md">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -32,7 +42,10 @@ const ExtensionTable = () => {
               Nome
             </th>
             <th scope="col" className="px-6 py-3">
-              Formação
+              Email
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Docente
             </th>
 
             <AdminOnly>
@@ -56,26 +69,34 @@ const ExtensionTable = () => {
                   <div className="text-base font-bold text-gray-900">
                     {item.name}
                   </div>
-                  <div className="text-sm font-normal capitalize text-gray-600">
-                    {item.type}
-                  </div>
                 </td>
                 <td
                   scope="row"
                   className="px-6 py-4 font-normal text-gray-900 whitespace-nowrap dark:text-white"
                 >
-                  {item.abstract}
+                  {item.email}
+                </td>
+
+                <td
+                  scope="row"
+                  className="px-6 py-4 font-normal text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                  {item.teacher.name}
                 </td>
 
                 <AdminOnly>
                   <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {/* <span className="mr-2">
+                    <span>
+                      <ViewExtension extension={item} />
+                    </span>
+
+                    <span className="ml-2">
                       <DeleteExtension extension={item} />
                     </span>
 
-                    <span>
+                    <span className="ml-2">
                       <UpdateExtension extension={item} />
-                    </span> */}
+                    </span>
                   </td>
                 </AdminOnly>
               </tr>
