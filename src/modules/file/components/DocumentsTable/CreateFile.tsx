@@ -10,6 +10,7 @@ import { Button } from "../../../../shared/styleguide/Button/Button";
 import { FileInput } from "../../../../shared/styleguide/Inputs/FileInput/FileInput";
 import { FiX } from "react-icons/fi";
 import { useFileContext } from "../../context/FileProvider";
+import { AxiosError } from "axios";
 
 const initialValues = {
   name: "",
@@ -97,6 +98,11 @@ const CreateFile = ({ openModal, setOpenModal }: CreateFileProps) => {
       }
     } catch (error) {
       console.error(error);
+      if (error instanceof AxiosError) {
+        if (error.response?.data?.message) {
+          setRequestError(error.response.data.message);
+        }
+      }
     } finally {
       setLoading(false);
     }

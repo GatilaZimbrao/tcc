@@ -12,6 +12,7 @@ import { ErrorMessage } from "../../../shared/styleguide/Inputs/ErrorMessage/Err
 import { SuccessMessage } from "../../../shared/styleguide/Inputs/SuccessMessage/SuccessMessage";
 import { Button } from "../../../shared/styleguide/Button/Button";
 import { Spinner } from "../../../shared/styleguide/Spinner/Spinner";
+import { AxiosError } from "axios";
 
 const schema = Yup.object().shape({
   name: Yup.string().required("Digite uma nome válido"),
@@ -90,6 +91,11 @@ const UpdateContact = ({ contact }: UpdateContactProps) => {
       }
     } catch (error) {
       console.error(error);
+      if (error instanceof AxiosError) {
+        if (error.response?.data?.message) {
+          setRequestError(error.response.data.message);
+        }
+      }
     } finally {
       setLoading(false);
     }

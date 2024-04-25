@@ -4,13 +4,13 @@ import { SideBar } from "../shared/components/SideBar";
 import { ExtensionProvider } from "../modules/extension/context/ExtensionProvider";
 import { ExtensionTable } from "../modules/extension/components/ExtensionTable";
 
-export const ProgramPage = () => {
+export const ProjectPage = () => {
   return (
     <div className="flex min-h-screen w-full">
       <SideBar />
       <MainComponent>
         <h1 className="w-full text-center text-gray-500">
-          Programas de Extensão
+          Projetos de Extensão
         </h1>
 
         <p className="w-full text-center mt-4 mb-6 text-gray-500 text-xl">
@@ -18,8 +18,8 @@ export const ProgramPage = () => {
           em contato. */}
         </p>
 
-        <ExtensionProvider extensionType="program">
-          <ExtensionTable type="program" />
+        <ExtensionProvider extensionType="project">
+          <ExtensionTable type="project" />
         </ExtensionProvider>
       </MainComponent>
     </div>

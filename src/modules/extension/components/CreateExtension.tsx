@@ -15,6 +15,7 @@ import { Spinner } from "../../../shared/styleguide/Spinner/Spinner";
 import { CustomSelect } from "../../../shared/styleguide/Inputs/CustomSelect/CustomSelect";
 import { ExtensionTypes } from "../typings/extensionTypes";
 import { Teacher } from "../../teacher/typings/teacher";
+import { AxiosError } from "axios";
 
 const initialValues = {
   name: "",
@@ -123,6 +124,8 @@ const CreateExtension = ({ type }: CreateExtensionProps) => {
         data
       );
 
+      console.log("responseresponseresponse");
+      console.log(response);
       const created = response.status === 201;
 
       if (created) {
@@ -135,6 +138,11 @@ const CreateExtension = ({ type }: CreateExtensionProps) => {
       }
     } catch (error) {
       console.error(error);
+      if (error instanceof AxiosError) {
+        if (error.response?.data?.message) {
+          setRequestError(error.response.data.message);
+        }
+      }
     } finally {
       setLoading(false);
     }
@@ -145,7 +153,7 @@ const CreateExtension = ({ type }: CreateExtensionProps) => {
       <Modal
         isOpen={isOpen}
         onClose={handleCloseModal}
-        title="Editar"
+        title="Cadastrar"
         children={
           <Formik
             initialValues={initialValues}
@@ -212,7 +220,6 @@ const CreateExtension = ({ type }: CreateExtensionProps) => {
                           <div>
                             <CustomSelect
                               label="Selecione o docente do programa:"
-                              // options={["colegiado", "colaborador"]}
                               options={teachers.map((teacher) => {
                                 return {
                                   value: teacher.id,
@@ -220,7 +227,7 @@ const CreateExtension = ({ type }: CreateExtensionProps) => {
                                 };
                               })}
                               field={field}
-                              error={meta.error}
+                              error={meta.touched ? meta.error : ""}
                             />
                             {meta.touched && meta.error && (
                               <div className="text-red-500 text-sm">

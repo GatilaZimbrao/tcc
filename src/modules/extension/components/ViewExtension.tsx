@@ -35,7 +35,7 @@ const ViewExtension = ({ extension }: ViewExtensionProps) => {
           <div className="">
             <div className="mb-4">
               <div className="text-gray-900 text-md font-bold">
-                Nome do Programa:
+                Nome da Atividade:
               </div>
               <div className="text-gray-500 text-md font-normal">
                 {extension.name}

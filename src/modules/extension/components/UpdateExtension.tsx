@@ -13,6 +13,8 @@ import { SuccessMessage } from "../../../shared/styleguide/Inputs/SuccessMessage
 import { Button } from "../../../shared/styleguide/Button/Button";
 import { Spinner } from "../../../shared/styleguide/Spinner/Spinner";
 import { CustomSelect } from "../../../shared/styleguide/Inputs/CustomSelect/CustomSelect";
+import { Teacher } from "../../teacher/typings/teacher";
+import { AxiosError } from "axios";
 
 const schema = Yup.object().shape({
   name: Yup.string().required("Digite uma nome válido"),
@@ -36,12 +38,29 @@ interface UpdateExtensionProps {
 
 const UpdateExtension = ({ extension }: UpdateExtensionProps) => {
   const [loading, setLoading] = useState(false);
+  const [teachers, setTeachers] = useState<Teacher[]>([]);
+
   const { dispatch } = useExtensionContext();
 
   const [requestError, setRequestError] = useState<string | undefined>("");
   const [requestSuccess, setRequestSuccess] = useState<string | undefined>("");
 
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const fetchTeachers = async () => {
+      try {
+        const response = await api.get("/teacher");
+        if (response.status === 200) {
+          setTeachers(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching teachers:", error);
+      }
+    };
+
+    fetchTeachers();
+  }, []);
 
   useEffect(() => {
     if (requestError) {
@@ -104,6 +123,11 @@ const UpdateExtension = ({ extension }: UpdateExtensionProps) => {
       }
     } catch (error) {
       console.error(error);
+      if (error instanceof AxiosError) {
+        if (error.response?.data?.message) {
+          setRequestError(error.response.data.message);
+        }
+      }
     } finally {
       setLoading(false);
     }
@@ -189,11 +213,13 @@ const UpdateExtension = ({ extension }: UpdateExtensionProps) => {
                           <div>
                             <CustomSelect
                               label="Selecione o docente do programa:"
-                              options={["colegiado", "colaborador"].map(
-                                (type) => {
-                                  return { label: type, value: type };
-                                }
-                              )}
+                              initialValue={extension.teacher.name}
+                              options={teachers.map((teacher) => {
+                                return {
+                                  value: teacher.id,
+                                  label: teacher.name,
+                                };
+                              })}
                               field={field}
                               error={meta.error}
                             />

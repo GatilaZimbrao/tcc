@@ -72,8 +72,7 @@ const menu: NavbarItemProps[] = [
       },
       {
         label: "Projetos",
-        external: true,
-        link: "https://www.cefet-rj.br/arquivos_download/instituicao/cepe/outros/regulamento_cepe.pdf",
+        link: "/projetos",
       },
     ],
   },

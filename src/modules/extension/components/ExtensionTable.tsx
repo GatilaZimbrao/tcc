@@ -29,7 +29,7 @@ const ExtensionTable = ({ type }: ExtensionTableProps) => {
   return (
     <div className="overflow-x-auto sm:rounded-lg p-4 w-full">
       <div className="flex justify-between items-center mb-4 mt-2 gap-4">
-        <SearchExtension />
+        <SearchExtension extensionType={type} />
 
         <AdminOnly>
           <CreateExtension type={type} />
@@ -48,11 +48,9 @@ const ExtensionTable = ({ type }: ExtensionTableProps) => {
               Docente
             </th>
 
-            <AdminOnly>
-              <th scope="col" colSpan={1} className="px-6 py-3">
-                Ações
-              </th>
-            </AdminOnly>
+            <th scope="col" colSpan={1} className="px-6 py-3">
+              Ações
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -84,12 +82,12 @@ const ExtensionTable = ({ type }: ExtensionTableProps) => {
                   {item.teacher.name}
                 </td>
 
-                <AdminOnly>
-                  <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <span>
-                      <ViewExtension extension={item} />
-                    </span>
+                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  <span>
+                    <ViewExtension extension={item} />
+                  </span>
 
+                  <AdminOnly>
                     <span className="ml-2">
                       <DeleteExtension extension={item} />
                     </span>
@@ -97,8 +95,8 @@ const ExtensionTable = ({ type }: ExtensionTableProps) => {
                     <span className="ml-2">
                       <UpdateExtension extension={item} />
                     </span>
-                  </td>
-                </AdminOnly>
+                  </AdminOnly>
+                </td>
               </tr>
             );
           })}

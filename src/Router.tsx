@@ -9,6 +9,7 @@ import { TeacherPage } from "./pages/TeacherPage";
 import { DocumentsPage } from "./pages/DocumentsPage";
 import { ContactPage } from "./pages/ContactPage";
 import { ProgramPage } from "./pages/ProgramPage";
+import { ProjectPage } from "./pages/ProjectPage";
 
 function Router() {
   return (
@@ -29,7 +30,7 @@ function Router() {
             <Route path="/contato" element={<ContactPage />} />
 
             <Route path="/programas" element={<ProgramPage />} />
-            <Route path="/projetos" element={<ContactPage />} />
+            <Route path="/projetos" element={<ProjectPage />} />
           </Route>
         </Routes>
       </div>

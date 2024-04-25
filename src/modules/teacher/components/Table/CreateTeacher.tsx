@@ -12,6 +12,7 @@ import { useTeacherContext } from "../../context/TeacherProvider";
 import { CustomSelect } from "../../../../shared/styleguide/Inputs/CustomSelect/CustomSelect";
 import Modal from "../../../../shared/styleguide/Modal/Modal";
 import { Spinner } from "../../../../shared/styleguide/Spinner/Spinner";
+import { AxiosError } from "axios";
 
 const initialValues = {
   name: "",
@@ -104,6 +105,11 @@ const CreateTeacher = () => {
       }
     } catch (error) {
       console.error(error);
+      if (error instanceof AxiosError) {
+        if (error.response?.data?.message) {
+          setRequestError(error.response.data.message);
+        }
+      }
     } finally {
       setLoading(false);
     }

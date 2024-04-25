@@ -17,6 +17,7 @@ import { ErrorMessage } from "../../../../shared/styleguide/Inputs/ErrorMessage/
 import { SuccessMessage } from "../../../../shared/styleguide/Inputs/SuccessMessage/SuccessMessage";
 import { Button } from "../../../../shared/styleguide/Button/Button";
 import * as Yup from "yup";
+import { AxiosError } from "axios";
 
 const schema = Yup.object().shape({
   name: Yup.string().required("Digite uma nome válido"),
@@ -110,6 +111,11 @@ const UpdateTeacher = ({ teacher }: UpdateTeacherProps) => {
       }
     } catch (error) {
       console.error(error);
+      if (error instanceof AxiosError) {
+        if (error.response?.data?.message) {
+          setRequestError(error.response.data.message);
+        }
+      }
     } finally {
       setLoading(false);
     }
