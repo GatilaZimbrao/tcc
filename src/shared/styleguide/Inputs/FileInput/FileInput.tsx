@@ -18,12 +18,8 @@ const FileInput = ({
   return (
     <>
       <div>
-        <div>
-          {/* <Label htmlFor="file-upload-helper-text" value="Upload file" /> */}
-        </div>
         <FileInputComponent
           id="file-upload-helper-text"
-          helperText="SVG, PNG, JPG or GIF (MAX. 800x400px)."
           name="file"
           lang="pt-BR"
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
