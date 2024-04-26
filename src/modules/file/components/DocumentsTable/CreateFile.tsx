@@ -11,6 +11,7 @@ import { FileInput } from "../../../../shared/styleguide/Inputs/FileInput/FileIn
 import { FiX } from "react-icons/fi";
 import { useFileContext } from "../../context/FileProvider";
 import { AxiosError } from "axios";
+import { validateFileExtension } from "../../../../shared/utils/validateFileExtension";
 
 const initialValues = {
   name: "",
@@ -24,9 +25,12 @@ const schema = Yup.object().shape({
     .required("Insira um arquivo")
     .test({
       name: "fileSize",
-      message: "Arquivo grande demais.",
+      message: "Arquivo grande demais. (Max: 5MB)",
       test: (value: any) => {
-        return value.size <= 1024 * 1024;
+        const FILE_SIZE_LIMIT_MB = 5;
+        const FILE_SIZE_LIMIT = FILE_SIZE_LIMIT_MB * 1024 * 1024;
+
+        return value.size <= FILE_SIZE_LIMIT;
       },
     })
     .test({
@@ -34,9 +38,8 @@ const schema = Yup.object().shape({
       message: "Tipo de arquivo não suportado.",
       test: (value: any) => {
         if (!value) return true;
-        return ["image/jpeg", "image/png", "application/pdf"].includes(
-          value.type
-        );
+
+        return validateFileExtension(value.name);
       },
     }),
 });
