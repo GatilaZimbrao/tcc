@@ -1,8 +1,8 @@
-import { MainComponent } from "../shared/components/MainComponent";
 import { SideBar } from "../shared/components/SideBar";
 
 import { TeacherProvider } from "../modules/teacher/context/TeacherProvider";
 import { TeacherTable } from "../modules/teacher/components/Table/TeacherTable";
+import { MainComponent } from "../shared/components/MainComponent/MainComponent";
 
 export const TeacherPage = () => {
   return (

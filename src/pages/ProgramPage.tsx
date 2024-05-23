@@ -1,4 +1,4 @@
-import { MainComponent } from "../shared/components/MainComponent";
+import { MainComponent } from "../shared/components/MainComponent/MainComponent";
 import { SideBar } from "../shared/components/SideBar";
 
 import { ExtensionProvider } from "../modules/extension/context/ExtensionProvider";

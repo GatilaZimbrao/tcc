@@ -13,8 +13,7 @@ interface ViewExtensionProps {
 }
 
 const ViewExtension = ({ extension }: ViewExtensionProps) => {
-  const [loading, setLoading] = useState(false);
-
+  const { loading } = useExtensionContext();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -50,9 +49,15 @@ const ViewExtension = ({ extension }: ViewExtensionProps) => {
             </div>
 
             <div className="mb-4">
-              <div className="text-gray-900 text-md font-bold">Docente:</div>
+              <div className="text-gray-900 text-md font-bold">Docentes:</div>
               <div className="text-gray-500 text-sm font-normal">
-                {extension.teacher.name}
+                {extension.teachers.map((teacherExtension, index) => {
+                  return (
+                    <p key={`extension-view-teacher-${index}`}>
+                      {teacherExtension.teacher.name}
+                    </p>
+                  );
+                })}
               </div>
             </div>
 
@@ -62,6 +67,13 @@ const ViewExtension = ({ extension }: ViewExtensionProps) => {
               </div>
               <div className="text-gray-500 text-sm font-normal">
                 {extension.email}
+              </div>
+            </div>
+
+            <div className="mb-4">
+              <div className="text-gray-900 text-md font-bold">Está ativa?</div>
+              <div className="text-gray-500 text-sm font-normal">
+                {extension.isActive ? "Sim" : "Não"}
               </div>
             </div>
 

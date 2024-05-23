@@ -1,12 +1,14 @@
+import { TeacherExtension } from "./teacher_extension";
+
 export interface Extension {
   id: string;
   name: string;
   abstract: string;
   email: string;
+  isActive: boolean;
   site: string;
   type: string;
-  teacherId: number;
-  teacher: Teacher;
+  teachers: TeacherExtension[];
 }
 
 export type ListExtensionResponse = Extension[];

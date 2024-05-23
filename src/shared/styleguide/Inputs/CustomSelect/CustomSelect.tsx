@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 
 interface Option {
-  value: string | number;
+  value: string | number | boolean;
   label: string;
 }
 
@@ -76,7 +76,7 @@ export const CustomSelect: React.FC<Props> = ({
           <ul className="absolute w-full max-h-36 overflow-y-auto z-10 top-full left-0 bg-white border border-gray-300 rounded-md text-sm text-gray-900">
             {options.map((option) => (
               <li
-                key={option.value}
+                key={`custom-select-${option.label}`}
                 onClick={() => handleOptionClick(option)}
                 className={`cursor-pointer hover:bg-gray-100 px-3 py-2 text-sm text-gray-900 capitalize ${
                   selectedOption == option.value &&

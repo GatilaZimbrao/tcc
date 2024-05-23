@@ -45,7 +45,10 @@ const ExtensionTable = ({ type }: ExtensionTableProps) => {
               Email
             </th>
             <th scope="col" className="px-6 py-3">
-              Docente
+              Docentes
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Está ativa?
             </th>
 
             <th scope="col" colSpan={1} className="px-6 py-3">
@@ -57,7 +60,7 @@ const ExtensionTable = ({ type }: ExtensionTableProps) => {
           {extensions.map((item) => {
             return (
               <tr
-                key={`documents-table-${item.id}`}
+                key={`extension-table-${item.id}`}
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
               >
                 <td
@@ -74,12 +77,23 @@ const ExtensionTable = ({ type }: ExtensionTableProps) => {
                 >
                   {item.email}
                 </td>
-
                 <td
                   scope="row"
                   className="px-6 py-4 font-normal text-gray-900 whitespace-nowrap dark:text-white"
                 >
-                  {item.teacher.name}
+                  {item.teachers.map((teacherExtension, index) => {
+                    return (
+                      <p key={`extension-table-teacher-${index}`}>
+                        {teacherExtension.teacher.name}
+                      </p>
+                    );
+                  })}
+                </td>
+                <td
+                  scope="row"
+                  className="px-6 py-4 font-normal text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                  {item.isActive ? "Sim" : "Não"}
                 </td>
 
                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">

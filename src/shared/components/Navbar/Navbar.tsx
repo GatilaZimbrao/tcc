@@ -4,7 +4,7 @@ import { NavbarItem, NavbarItemProps } from "./NavbarItem";
 const menu: NavbarItemProps[] = [
   {
     label: "Início",
-    link: "/home",
+    link: "/",
   },
 
   {
@@ -54,8 +54,19 @@ const menu: NavbarItemProps[] = [
 
   {
     label: "Colegiado",
-    external: true,
-    link: "https://drive.google.com/drive/folders/0B2u-ugOQzUgEWDd1UzRaaWFMUlU?resourcekey=0-9jzVele3YMNXny7cJZ_qAQ&usp=drive_link",
+
+    items: [
+      // {
+      //   label: "CEPE",
+      //   external: true,
+      //   link: "https://drive.google.com/drive/folders/0B2u-ugOQzUgEWDd1UzRaaWFMUlU?resourcekey=0-9jzVele3YMNXny7cJZ_qAQ&usp=drive_link",
+      // },
+      {
+        label: "Atas",
+        external: true,
+        link: "https://drive.google.com/drive/folders/0B2u-ugOQzUgEWDd1UzRaaWFMUlU?resourcekey=0-9jzVele3YMNXny7cJZ_qAQ&usp=drive_link",
+      },
+    ],
   },
 
   {

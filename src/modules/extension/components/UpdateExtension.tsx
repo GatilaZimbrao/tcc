@@ -20,6 +20,7 @@ const schema = Yup.object().shape({
   name: Yup.string().required("Digite uma nome válido"),
   abstract: Yup.string().required("Digite uma resumo válido"),
   email: Yup.string().email().required("Digite um email válido"),
+  isActive: Yup.bool().required("Selecione um estado"),
   site: Yup.string(),
   teacherId: Yup.number().required("Selecione um professor"),
 });
@@ -28,6 +29,7 @@ interface FormikValues {
   name: string;
   abstract: string;
   email: string;
+  isActive: boolean;
   site: string;
   teacherId: number;
 }
@@ -90,6 +92,7 @@ const UpdateExtension = ({ extension }: UpdateExtensionProps) => {
     name,
     abstract,
     email,
+    isActive,
     site,
     teacherId,
   }: FormikValues) => {
@@ -100,6 +103,7 @@ const UpdateExtension = ({ extension }: UpdateExtensionProps) => {
         name,
         abstract,
         email,
+        isActive,
         site,
         type: extension.type,
         teacherId,
@@ -137,8 +141,9 @@ const UpdateExtension = ({ extension }: UpdateExtensionProps) => {
     name: extension.name,
     abstract: extension.abstract,
     email: extension.email,
+    isActive: extension.isActive,
     site: extension.site,
-    teacherId: extension.teacherId,
+    teacherId: extension.teachers,
   };
 
   return (
@@ -190,6 +195,40 @@ const UpdateExtension = ({ extension }: UpdateExtensionProps) => {
                             value={field.value}
                             error={meta.touched ? meta.error : ""}
                           />
+                        )}
+                      </Field>
+                    </div>
+
+                    <div className="mt-4">
+                      <Field name="isActive">
+                        {({ field, meta }: FieldProps) => (
+                          <div>
+                            <CustomSelect
+                              label="Está ativo?"
+                              options={[
+                                {
+                                  value: true,
+                                  label: "Sim",
+                                },
+                                {
+                                  value: false,
+                                  label: "Não",
+                                },
+                              ].map((item) => {
+                                return {
+                                  value: item.value,
+                                  label: item.label,
+                                };
+                              })}
+                              field={field}
+                              error={meta.touched ? meta.error : ""}
+                            />
+                            {meta.touched && meta.error && (
+                              <div className="text-red-500 text-sm">
+                                {meta.error}
+                              </div>
+                            )}
+                          </div>
                         )}
                       </Field>
                     </div>

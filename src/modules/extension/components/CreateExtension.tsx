@@ -16,11 +16,13 @@ import { CustomSelect } from "../../../shared/styleguide/Inputs/CustomSelect/Cus
 import { ExtensionTypes } from "../typings/extensionTypes";
 import { Teacher } from "../../teacher/typings/teacher";
 import { AxiosError } from "axios";
+import { MultiSelect } from "../../../shared/styleguide/Inputs/MultiSelect/MultiSelect";
 
 const initialValues = {
   name: "",
   abstract: "",
   email: "",
+  isActive: true,
   site: "",
   teacherId: null,
 };
@@ -28,15 +30,22 @@ const initialValues = {
 const schema = Yup.object().shape({
   name: Yup.string().required("Digite uma nome válido"),
   abstract: Yup.string().required("Digite uma resumo válido"),
-  email: Yup.string().email().required("Digite um email válido"),
+  email: Yup.string()
+    .email("Digite um email válido")
+    .required("Digite um email válido"),
+  isActive: Yup.bool().required("Selecione um estado"),
   site: Yup.string(),
-  teacherId: Yup.number().required("Selecione um professor"),
+  teacherId: Yup.array()
+    .of(Yup.number())
+    .min(1, "Selecione pelo menos um professor.")
+    .required("Selecione um professor"),
 });
 
 interface FormikValues {
   name: string;
   abstract: string;
   email: string;
+  isActive: boolean;
   site: string;
   teacherId: number | null;
 }
@@ -104,6 +113,7 @@ const CreateExtension = ({ type }: CreateExtensionProps) => {
     name,
     abstract,
     email,
+    isActive,
     site,
     teacherId,
   }: FormikValues) => {
@@ -114,6 +124,7 @@ const CreateExtension = ({ type }: CreateExtensionProps) => {
         name,
         abstract,
         email,
+        isActive,
         site,
         type: type,
         teacherId,
@@ -124,8 +135,6 @@ const CreateExtension = ({ type }: CreateExtensionProps) => {
         data
       );
 
-      console.log("responseresponseresponse");
-      console.log(response);
       const created = response.status === 201;
 
       if (created) {
@@ -202,6 +211,40 @@ const CreateExtension = ({ type }: CreateExtensionProps) => {
                     </div>
 
                     <div className="mt-4">
+                      <Field name="isActive">
+                        {({ field, meta }: FieldProps) => (
+                          <div>
+                            <CustomSelect
+                              label="Está ativo?"
+                              options={[
+                                {
+                                  value: true,
+                                  label: "Sim",
+                                },
+                                {
+                                  value: false,
+                                  label: "Não",
+                                },
+                              ].map((item) => {
+                                return {
+                                  value: item.value,
+                                  label: item.label,
+                                };
+                              })}
+                              field={field}
+                              error={meta.touched ? meta.error : ""}
+                            />
+                            {meta.touched && meta.error && (
+                              <div className="text-red-500 text-sm">
+                                {meta.error}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </Field>
+                    </div>
+
+                    <div className="mt-4">
                       <Field name="site">
                         {({ field, meta }: FieldProps) => (
                           <TextInput
@@ -218,7 +261,7 @@ const CreateExtension = ({ type }: CreateExtensionProps) => {
                       <Field name="teacherId">
                         {({ field, meta }: FieldProps) => (
                           <div>
-                            <CustomSelect
+                            <MultiSelect
                               label="Selecione o docente do programa:"
                               options={teachers.map((teacher) => {
                                 return {
@@ -229,11 +272,11 @@ const CreateExtension = ({ type }: CreateExtensionProps) => {
                               field={field}
                               error={meta.touched ? meta.error : ""}
                             />
-                            {meta.touched && meta.error && (
+                            {/* {meta.touched && meta.error && (
                               <div className="text-red-500 text-sm">
                                 {meta.error}
                               </div>
-                            )}
+                            )} */}
                           </div>
                         )}
                       </Field>
