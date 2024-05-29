@@ -24,7 +24,7 @@ const initialValues = {
   email: "",
   isActive: true,
   site: "",
-  teacherId: null,
+  teachers: [],
 };
 
 const schema = Yup.object().shape({
@@ -35,10 +35,11 @@ const schema = Yup.object().shape({
     .required("Digite um email válido"),
   isActive: Yup.bool().required("Selecione um estado"),
   site: Yup.string(),
-  teacherId: Yup.array()
+  teachers: Yup.array()
     .of(Yup.number())
-    .min(1, "Selecione pelo menos um professor.")
-    .required("Selecione um professor"),
+    .min(1, "Selecione pelo menos um docente.")
+    .max(2, "Selecione até 2 docentes.")
+    .required("Selecione pelo menos um docente"),
 });
 
 interface FormikValues {
@@ -47,7 +48,7 @@ interface FormikValues {
   email: string;
   isActive: boolean;
   site: string;
-  teacherId: number | null;
+  teachers: number[];
 }
 
 interface CreateExtensionProps {
@@ -81,11 +82,6 @@ const CreateExtension = ({ type }: CreateExtensionProps) => {
   }, []);
 
   useEffect(() => {
-    console.log("teachers");
-    console.log(teachers);
-  }, [teachers]);
-
-  useEffect(() => {
     if (requestError) {
       setTimeout(() => {
         setRequestError("");
@@ -115,7 +111,7 @@ const CreateExtension = ({ type }: CreateExtensionProps) => {
     email,
     isActive,
     site,
-    teacherId,
+    teachers,
   }: FormikValues) => {
     try {
       setLoading(true);
@@ -127,7 +123,7 @@ const CreateExtension = ({ type }: CreateExtensionProps) => {
         isActive,
         site,
         type: type,
-        teacherId,
+        teachers,
       };
 
       const response = await api.post<CreateExtensionResponse>(
@@ -231,6 +227,7 @@ const CreateExtension = ({ type }: CreateExtensionProps) => {
                                   label: item.label,
                                 };
                               })}
+                              initialValue={"Sim"}
                               field={field}
                               error={meta.touched ? meta.error : ""}
                             />
@@ -258,7 +255,7 @@ const CreateExtension = ({ type }: CreateExtensionProps) => {
                     </div>
 
                     <div className="mt-4">
-                      <Field name="teacherId">
+                      <Field name="teachers">
                         {({ field, meta }: FieldProps) => (
                           <div>
                             <MultiSelect
@@ -272,11 +269,6 @@ const CreateExtension = ({ type }: CreateExtensionProps) => {
                               field={field}
                               error={meta.touched ? meta.error : ""}
                             />
-                            {/* {meta.touched && meta.error && (
-                              <div className="text-red-500 text-sm">
-                                {meta.error}
-                              </div>
-                            )} */}
                           </div>
                         )}
                       </Field>

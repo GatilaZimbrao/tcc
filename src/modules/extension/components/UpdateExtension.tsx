@@ -15,14 +15,21 @@ import { Spinner } from "../../../shared/styleguide/Spinner/Spinner";
 import { CustomSelect } from "../../../shared/styleguide/Inputs/CustomSelect/CustomSelect";
 import { Teacher } from "../../teacher/typings/teacher";
 import { AxiosError } from "axios";
+import { MultiSelect } from "../../../shared/styleguide/Inputs/MultiSelect/MultiSelect";
 
 const schema = Yup.object().shape({
   name: Yup.string().required("Digite uma nome válido"),
   abstract: Yup.string().required("Digite uma resumo válido"),
-  email: Yup.string().email().required("Digite um email válido"),
+  email: Yup.string()
+    .email("Digite um email válido")
+    .required("Digite um email válido"),
   isActive: Yup.bool().required("Selecione um estado"),
   site: Yup.string(),
-  teacherId: Yup.number().required("Selecione um professor"),
+  teachers: Yup.array()
+    .of(Yup.number())
+    .min(1, "Selecione pelo menos um docente.")
+    .max(2, "Selecione até 2 docentes.")
+    .required("Selecione pelo menos um docente"),
 });
 
 interface FormikValues {
@@ -31,7 +38,7 @@ interface FormikValues {
   email: string;
   isActive: boolean;
   site: string;
-  teacherId: number;
+  teachers: number[];
 }
 
 interface UpdateExtensionProps {
@@ -40,7 +47,7 @@ interface UpdateExtensionProps {
 
 const UpdateExtension = ({ extension }: UpdateExtensionProps) => {
   const [loading, setLoading] = useState(false);
-  const [teachers, setTeachers] = useState<Teacher[]>([]);
+  const [teacherList, setTeacherList] = useState<Teacher[]>([]);
 
   const { dispatch } = useExtensionContext();
 
@@ -54,7 +61,7 @@ const UpdateExtension = ({ extension }: UpdateExtensionProps) => {
       try {
         const response = await api.get("/teacher");
         if (response.status === 200) {
-          setTeachers(response.data);
+          setTeacherList(response.data);
         }
       } catch (error) {
         console.error("Error fetching teachers:", error);
@@ -94,7 +101,7 @@ const UpdateExtension = ({ extension }: UpdateExtensionProps) => {
     email,
     isActive,
     site,
-    teacherId,
+    teachers,
   }: FormikValues) => {
     try {
       setLoading(true);
@@ -106,7 +113,7 @@ const UpdateExtension = ({ extension }: UpdateExtensionProps) => {
         isActive,
         site,
         type: extension.type,
-        teacherId,
+        teachers,
       };
 
       const response = await api.put<UpdateExtensionResponse>(
@@ -143,7 +150,7 @@ const UpdateExtension = ({ extension }: UpdateExtensionProps) => {
     email: extension.email,
     isActive: extension.isActive,
     site: extension.site,
-    teacherId: extension.teachers,
+    teachers: extension.teachers.map((item) => Number(item.teacherId)),
   };
 
   return (
@@ -220,6 +227,9 @@ const UpdateExtension = ({ extension }: UpdateExtensionProps) => {
                                   label: item.label,
                                 };
                               })}
+                              initialValue={
+                                initialValues.isActive ? "Sim" : "Não"
+                              }
                               field={field}
                               error={meta.touched ? meta.error : ""}
                             />
@@ -247,26 +257,21 @@ const UpdateExtension = ({ extension }: UpdateExtensionProps) => {
                     </div>
 
                     <div className="mt-4">
-                      <Field name="teacherId">
+                      <Field name="teachers">
                         {({ field, meta }: FieldProps) => (
                           <div>
-                            <CustomSelect
+                            <MultiSelect
                               label="Selecione o docente do programa:"
-                              initialValue={extension.teacher.name}
-                              options={teachers.map((teacher) => {
+                              initialValue={initialValues.teachers}
+                              options={teacherList.map((teacher) => {
                                 return {
                                   value: teacher.id,
                                   label: teacher.name,
                                 };
                               })}
                               field={field}
-                              error={meta.error}
+                              error={meta.error ?? ""}
                             />
-                            {meta.touched && meta.error && (
-                              <div className="text-red-500 text-sm">
-                                {meta.error}
-                              </div>
-                            )}
                           </div>
                         )}
                       </Field>

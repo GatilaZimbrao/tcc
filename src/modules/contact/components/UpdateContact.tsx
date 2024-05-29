@@ -16,7 +16,9 @@ import { AxiosError } from "axios";
 
 const schema = Yup.object().shape({
   name: Yup.string().required("Digite uma nome válido"),
-  email: Yup.string().email().required("Digite um email válido"),
+  email: Yup.string()
+    .email("Digite um email válido")
+    .required("Digite um email válido"),
   tel: Yup.string().required("Digite uma telefone válido"),
 });
 

@@ -22,7 +22,9 @@ type FormikValues = typeof initialValues;
 
 const schema = Yup.object().shape({
   name: Yup.string().required("Digite uma nome válido"),
-  email: Yup.string().email().required("Digite um email válido"),
+  email: Yup.string()
+    .email("Digite um email válido")
+    .required("Digite um email válido"),
   password: Yup.string().required("Digite uma senha válida"),
   confirmPassword: Yup.string().required("Digite uma senha válida"),
 });
