@@ -19,18 +19,22 @@ const schema = Yup.object().shape({
   pathName: Yup.string().required("Digite uma título válido"),
   title: Yup.string().required("Digite uma título válido"),
   description: Yup.string(),
+  minutesLink: Yup.string(),
+  cepeLink: Yup.string(),
 });
 interface FormikValues {
   pathName: string;
   title: string;
   description: string;
+  minutesLink: string;
+  cepeLink: string;
 }
 
-interface UpdatePageProps {
+interface UpdatePageCollegiateProps {
   page: Page;
 }
 
-const UpdatePage = ({ page }: UpdatePageProps) => {
+const UpdatePageCollegiate = ({ page }: UpdatePageCollegiateProps) => {
   const [loading, setLoading] = useState(false);
   const { dispatch } = usePageContext();
 
@@ -67,6 +71,8 @@ const UpdatePage = ({ page }: UpdatePageProps) => {
     pathName,
     title,
     description,
+    minutesLink,
+    cepeLink,
   }: FormikValues) => {
     try {
       setLoading(true);
@@ -75,6 +81,10 @@ const UpdatePage = ({ page }: UpdatePageProps) => {
         pathName,
         title,
         description,
+        additionalParams: {
+          minutesLink,
+          cepeLink,
+        },
       };
 
       const response = await api.put<UpdatePageResponse>(
@@ -110,6 +120,8 @@ const UpdatePage = ({ page }: UpdatePageProps) => {
     pathName: page.pathName,
     title: page.title,
     description: page.description,
+    minutesLink: page?.additionalParams?.minutesLink ?? "",
+    cepeLink: page?.additionalParams?.cepeLink ?? "",
   };
 
   return (
@@ -143,6 +155,32 @@ const UpdatePage = ({ page }: UpdatePageProps) => {
                         {({ field, meta }: FieldProps) => (
                           <TextInput
                             label="Descrição da página:"
+                            {...field}
+                            value={field.value}
+                            error={meta.touched ? meta.error : ""}
+                          />
+                        )}
+                      </Field>
+                    </div>
+
+                    <div className="mt-4">
+                      <Field name="minutesLink">
+                        {({ field, meta }: FieldProps) => (
+                          <TextInput
+                            label="Link para as Atas:"
+                            {...field}
+                            value={field.value}
+                            error={meta.touched ? meta.error : ""}
+                          />
+                        )}
+                      </Field>
+                    </div>
+
+                    <div className="mt-4">
+                      <Field name="cepeLink">
+                        {({ field, meta }: FieldProps) => (
+                          <TextInput
+                            label="Link para o CEPE:"
                             {...field}
                             value={field.value}
                             error={meta.touched ? meta.error : ""}
@@ -189,4 +227,4 @@ const UpdatePage = ({ page }: UpdatePageProps) => {
   );
 };
 
-export { UpdatePage };
+export { UpdatePageCollegiate };

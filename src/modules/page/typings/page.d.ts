@@ -3,6 +3,7 @@ export interface Page {
   pathName: string;
   title: string;
   description: string;
+  additionalParams: { [key: string]: any };
 }
 
 export type ListPageResponse = Page[];

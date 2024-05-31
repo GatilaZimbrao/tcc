@@ -19,18 +19,20 @@ const schema = Yup.object().shape({
   pathName: Yup.string().required("Digite uma título válido"),
   title: Yup.string().required("Digite uma título válido"),
   description: Yup.string(),
+  imageUrl: Yup.string(),
 });
 interface FormikValues {
   pathName: string;
   title: string;
   description: string;
+  imageUrl: string;
 }
 
-interface UpdatePageProps {
+interface UpdatePageHomeProps {
   page: Page;
 }
 
-const UpdatePage = ({ page }: UpdatePageProps) => {
+const UpdatePageHome = ({ page }: UpdatePageHomeProps) => {
   const [loading, setLoading] = useState(false);
   const { dispatch } = usePageContext();
 
@@ -67,6 +69,7 @@ const UpdatePage = ({ page }: UpdatePageProps) => {
     pathName,
     title,
     description,
+    imageUrl,
   }: FormikValues) => {
     try {
       setLoading(true);
@@ -75,6 +78,9 @@ const UpdatePage = ({ page }: UpdatePageProps) => {
         pathName,
         title,
         description,
+        additionalParams: {
+          imageUrl,
+        },
       };
 
       const response = await api.put<UpdatePageResponse>(
@@ -110,6 +116,7 @@ const UpdatePage = ({ page }: UpdatePageProps) => {
     pathName: page.pathName,
     title: page.title,
     description: page.description,
+    imageUrl: page?.additionalParams?.imageUrl ?? "",
   };
 
   return (
@@ -143,6 +150,19 @@ const UpdatePage = ({ page }: UpdatePageProps) => {
                         {({ field, meta }: FieldProps) => (
                           <TextInput
                             label="Descrição da página:"
+                            {...field}
+                            value={field.value}
+                            error={meta.touched ? meta.error : ""}
+                          />
+                        )}
+                      </Field>
+                    </div>
+
+                    <div className="mt-4">
+                      <Field name="imageUrl">
+                        {({ field, meta }: FieldProps) => (
+                          <TextInput
+                            label="Link da imagem:"
                             {...field}
                             value={field.value}
                             error={meta.touched ? meta.error : ""}
@@ -189,4 +209,4 @@ const UpdatePage = ({ page }: UpdatePageProps) => {
   );
 };
 
-export { UpdatePage };
+export { UpdatePageHome };

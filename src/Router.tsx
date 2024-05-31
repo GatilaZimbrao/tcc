@@ -1,16 +1,17 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { Test } from "./pages/Test";
+
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import { AuthProvider } from "./modules/auth/context/AuthContext";
 import { PageProvider } from "./modules/page/context/PageProvider";
 import { ProtectedRoute } from "./shared/utils/ProtectedRoute";
-import { PrivateTest } from "./pages/PrivateTest";
+import { HomePage } from "./pages/HomePage";
 import { TeacherPage } from "./pages/TeacherPage";
 import { DocumentsPage } from "./pages/DocumentsPage";
 import { ContactPage } from "./pages/ContactPage";
 import { ProgramPage } from "./pages/ProgramPage";
 import { ProjectPage } from "./pages/ProjectPage";
+import { CollegiatePage } from "./pages/CollegiatePage";
 
 function Router() {
   return (
@@ -23,10 +24,12 @@ function Router() {
 
             {/* Rotas protegidas */}
             <Route element={<ProtectedRoute />}>
-              <Route path="/" element={<PrivateTest />} />
+              <Route path="/" element={<HomePage />} />
               <Route path="/documentos" element={<DocumentsPage />} />
               <Route path="/docentes" element={<TeacherPage />} />
               <Route path="/contato" element={<ContactPage />} />
+
+              <Route path="/colegiado" element={<CollegiatePage />} />
 
               <Route path="/programas" element={<ProgramPage />} />
               <Route path="/projetos" element={<ProjectPage />} />
