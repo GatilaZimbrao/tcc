@@ -31,7 +31,6 @@ export const HomePage = () => {
             src={page?.additionalParams?.imageUrl}
             alt={"Foto do CEFET Nova Friburgo"}
             width={"100%"}
-            // height={"100"}
           />
         )}
       </MainComponent>
