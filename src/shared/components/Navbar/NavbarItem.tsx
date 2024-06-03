@@ -1,5 +1,4 @@
 import classNames from "classnames";
-// import { ChevronRight, Icon } from "react-feather";
 import { Link } from "react-router-dom";
 import { Collapse } from "../../styleguide/Collapse/Collapse";
 import { FiChevronRight } from "react-icons/fi";

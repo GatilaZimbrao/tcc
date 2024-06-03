@@ -75,11 +75,7 @@ const menu: NavbarItemProps[] = [
 const Navbar = () => {
   const location = useLocation();
   return (
-    <div
-      // col-start-1 col-end-2 row-start-2 row-end-3 w-72
-      className={`
-      flex-col flex`}
-    >
+    <div className={`flex-col flex`}>
       {menu.map((item) => {
         return (
           <NavbarItem

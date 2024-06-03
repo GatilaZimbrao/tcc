@@ -6,11 +6,6 @@ import { Link } from "react-router-dom";
 import { Navbar } from "./Navbar/Navbar";
 import { useAuth } from "../../modules/auth/context/AuthContext";
 
-// const handleRetry = () => {
-//   handleLogout(() => {
-//     // location.reload();
-//   });
-// };
 const SideBar = () => {
   const { handleLogout } = useAuth();
 

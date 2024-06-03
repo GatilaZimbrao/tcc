@@ -103,11 +103,6 @@ const UpdateTeacher = ({ teacher }: UpdateTeacherProps) => {
         handleCloseModal();
 
         location.reload();
-
-        // dispatch({
-        //   type: "ADD_TEACHER",
-        //   payload: response.data,
-        // });
       }
     } catch (error) {
       console.error(error);

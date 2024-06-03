@@ -94,11 +94,6 @@ const UpdatePageHome = ({ page }: UpdatePageHomeProps) => {
         handleCloseModal();
 
         location.reload();
-
-        // dispatch({
-        //   type: "ADD_TEACHER",
-        //   payload: response.data,
-        // });
       }
     } catch (error) {
       console.error(error);

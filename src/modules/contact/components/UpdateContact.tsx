@@ -86,10 +86,6 @@ const UpdateContact = ({ contact }: UpdateContactProps) => {
         handleCloseModal();
 
         location.reload();
-        // dispatch({
-        //   type: "ADD_CONTACT",
-        //   payload: response.data,
-        // });
       }
     } catch (error) {
       console.error(error);

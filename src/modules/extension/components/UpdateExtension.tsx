@@ -127,10 +127,6 @@ const UpdateExtension = ({ extension }: UpdateExtensionProps) => {
         handleCloseModal();
 
         location.reload();
-        // dispatch({
-        //   type: "ADD_EXTENSION",
-        //   payload: response.data,
-        // });
       }
     } catch (error) {
       console.error(error);

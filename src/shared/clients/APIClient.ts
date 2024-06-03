@@ -1,5 +1,4 @@
 import axios from "axios";
-// import Cookies from "js-cookie";
 import { API_ENDPOINTS, enviroment } from "../constants/enviroment";
 import Cookies from "js-cookie";
 import { SESSION_TOKEN } from "../constants/cookies";

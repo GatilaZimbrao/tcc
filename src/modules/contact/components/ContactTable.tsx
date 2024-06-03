@@ -3,10 +3,6 @@ import { formatTel } from "../../../shared/utils/formatTel";
 import { useContactContext } from "../context/ContactProvider";
 import { UpdateContact } from "./UpdateContact";
 
-// import { formatarTelefone } from '@shared/';
-
-// import { ProtectedRoute } from "./shared/utils/ProtectedRoute";
-
 const ContactTable = () => {
   const { contacts } = useContactContext();
 

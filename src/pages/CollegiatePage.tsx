@@ -17,9 +17,6 @@ export const CollegiatePage = () => {
     return finded;
   }, [pages]);
 
-  console.log("pagepagepage");
-  console.log(page);
-
   return (
     <div className="flex min-h-screen w-full">
       <SideBar />

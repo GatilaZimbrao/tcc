@@ -1,15 +1,3 @@
-// import { Button } from "../../../../shared/styleguide/Button/Button";
-// import { CreateExtension } from "./CreateExtension";
-// import { useState } from "react";
-// import { useExtensionContext } from "../../context/ExtensionProvider";
-// import { Link } from "react-router-dom";
-// import ExtensionImage from "./ExtensionImage";
-// import { DeleteExtension } from "./DeleteExtension";
-// import Modal from "../../../../shared/styleguide/Modal/Modal";
-// import { UpdateExtension } from "./UpdateExtension";
-// import SearchExtension from "./SearchExtension";
-// import { AdminOnly } from "../../../../shared/utils/IsAdmin";
-
 import { AdminOnly } from "../../../shared/utils/IsAdmin";
 import { useExtensionContext } from "../context/ExtensionProvider";
 import { ExtensionTypes } from "../typings/extensionTypes";

@@ -154,12 +154,10 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  const handleLogout = (callback?: () => void) => {
+  const handleLogout = () => {
     setUser(undefined);
 
     Cookies.remove(SESSION_TOKEN);
-
-    callback?.();
   };
 
   const isAuthenticated = !!user && !loading;
