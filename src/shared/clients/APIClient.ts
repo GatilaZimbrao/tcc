@@ -8,6 +8,7 @@ const BASE_URL = API_ENDPOINTS[enviroment];
 export const getAPIClient = () => {
   const api = axios.create({
     baseURL: BASE_URL,
+    withCredentials: true,
   });
 
   api.interceptors.request.use((config) => {
