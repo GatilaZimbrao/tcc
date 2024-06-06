@@ -175,7 +175,7 @@ const UpdatePageCollegiate = ({ page }: UpdatePageCollegiateProps) => {
                       <Field name="cepeLink">
                         {({ field, meta }: FieldProps) => (
                           <TextInput
-                            label="Link para o CEPE:"
+                            label="Link para o regulamento do CEPE:"
                             {...field}
                             value={field.value}
                             error={meta.touched ? meta.error : ""}

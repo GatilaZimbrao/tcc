@@ -42,7 +42,9 @@ export const CollegiatePage = () => {
 
           {page?.additionalParams?.cepeLink && (
             <div className="flex flex-col mb-4">
-              <span className="font-medium mb-2">Link para o CEPE:</span>
+              <span className="font-medium mb-2">
+                Link para o regulamento do CEPE:
+              </span>
 
               <Link to={page?.additionalParams?.cepeLink} target="_blank">
                 <span className="text-link text-base">
