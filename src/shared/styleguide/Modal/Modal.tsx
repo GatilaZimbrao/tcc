@@ -45,7 +45,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
         </div>
 
         <span
-          className="hidden sm:inline-block sm:align-middle sm:h-screen"
+          className="hidden sm:inline-block sm:align-middle sm:min-h-screen"
           aria-hidden="true"
         >
           &#8203;

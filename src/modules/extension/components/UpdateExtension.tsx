@@ -16,6 +16,7 @@ import { CustomSelect } from "../../../shared/styleguide/Inputs/CustomSelect/Cus
 import { Teacher } from "../../teacher/typings/teacher";
 import { AxiosError } from "axios";
 import { MultiSelect } from "../../../shared/styleguide/Inputs/MultiSelect/MultiSelect";
+import { TextAreaInput } from "../../../shared/styleguide/Inputs/TextAreaInput/TextAreaInput";
 
 const schema = Yup.object().shape({
   name: Yup.string().required("Digite uma nome válido"),
@@ -179,12 +180,21 @@ const UpdateExtension = ({ extension }: UpdateExtensionProps) => {
                     <div className="mt-4">
                       <Field name="abstract">
                         {({ field, meta }: FieldProps) => (
-                          <TextInput
+                          <TextAreaInput
                             label="Resumo do programa:"
-                            {...field}
-                            value={field.value}
                             error={meta.touched ? meta.error : ""}
+                            // value={field.value}
+
+                            {...field}
+                            compact={true}
+                            block={true}
                           />
+                          // <TextInput
+                          //   label="Resumo do programa:"
+                          //   {...field}
+                          //   value={field.value}
+                          //   error={meta.touched ? meta.error : ""}
+                          // />
                         )}
                       </Field>
                     </div>

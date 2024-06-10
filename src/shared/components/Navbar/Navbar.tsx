@@ -38,26 +38,6 @@ const menu: NavbarItemProps[] = [
   },
 
   {
-    label: "Docentes",
-    link: "/docentes",
-  },
-
-  {
-    label: "Biblioteca",
-    external: true,
-    link: "https://www.cefet-rj.br/index.php/biblioteca-campus-nova-friburgo",
-  },
-  {
-    label: "Contato",
-    link: "/contato",
-  },
-
-  {
-    label: "Colegiado",
-    link: "/colegiado",
-  },
-
-  {
     label: "Extensão",
     items: [
       {
@@ -69,6 +49,25 @@ const menu: NavbarItemProps[] = [
         link: "/projetos",
       },
     ],
+  },
+  {
+    label: "Docentes",
+    link: "/docentes",
+  },
+
+  {
+    label: "Biblioteca",
+    external: true,
+    link: "https://biblioteca.cefet-rj.br/index.html",
+  },
+  {
+    label: "Contato",
+    link: "/contato",
+  },
+
+  {
+    label: "Colegiado",
+    link: "/colegiado",
   },
 ];
 

@@ -20,6 +20,7 @@ import {
 } from "../typings/auth";
 import { SESSION_TOKEN } from "../../../shared/constants/cookies";
 import { ROLES } from "../typings/roles";
+import { useNavigate } from "react-router-dom";
 
 const { ERR_BAD_REQUEST, ERR_NETWORK } = AxiosError;
 
@@ -40,7 +41,6 @@ export interface AuthContext {
   isAdmin: boolean;
   loading: boolean;
   user?: User;
-  initialValidate: boolean;
   handleLogin: ({ email, password }: LoginInput) => Promise<LoginResult>;
   handleRegister: ({
     name,
@@ -56,27 +56,7 @@ export const AuthContext = createContext({} as AuthContext);
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [user, setUser] = useState<User>();
-  const [initialValidate, setInitialValidate] = useState<boolean>(false);
-
-  const validateSession = async () => {
-    setLoading(true);
-    try {
-      const response = await api.get<SessionResponse>("/auth/session");
-      const authenticated = response.status === 200;
-
-      if (authenticated) {
-        setUser(response.data);
-      }
-    } catch (_) {
-    } finally {
-      setLoading(false);
-      setInitialValidate(true);
-    }
-  };
-
-  useEffect(() => {
-    validateSession();
-  }, []);
+  const navigate = useNavigate();
 
   const handleLogin = async ({
     email,
@@ -158,6 +138,8 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     setUser(undefined);
 
     Cookies.remove(SESSION_TOKEN);
+
+    navigate("/login");
   };
 
   const isAuthenticated = !!user && !loading;
@@ -169,7 +151,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     isAdmin,
     loading,
     user,
-    initialValidate,
     handleLogin,
     handleRegister,
     handleLogout,

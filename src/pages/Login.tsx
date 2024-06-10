@@ -96,11 +96,7 @@ export const Login = () => {
 
   const footer = (
     <>
-      <Button compact apperance="link" size="sm">
-        <Link to="/register" className="text-link">
-          Registre-se
-        </Link>
-      </Button>
+      <div></div>
       <Button loading={loading} apperance="primary" size="sm" type="submit">
         <span className="font-semibold">ENVIAR</span>
       </Button>

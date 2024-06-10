@@ -31,7 +31,7 @@ const ModalConfirmation: React.FC<ModalConfirmationProps> = ({
         </div>
 
         <span
-          className="hidden sm:inline-block sm:align-middle sm:h-screen"
+          className="hidden sm:inline-block sm:align-middle sm:min-h-screen"
           aria-hidden="true"
         >
           &#8203;

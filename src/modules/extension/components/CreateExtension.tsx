@@ -17,6 +17,7 @@ import { ExtensionTypes } from "../typings/extensionTypes";
 import { Teacher } from "../../teacher/typings/teacher";
 import { AxiosError } from "axios";
 import { MultiSelect } from "../../../shared/styleguide/Inputs/MultiSelect/MultiSelect";
+import { TextAreaInput } from "../../../shared/styleguide/Inputs/TextAreaInput/TextAreaInput";
 
 const initialValues = {
   name: "",
@@ -183,11 +184,20 @@ const CreateExtension = ({ type }: CreateExtensionProps) => {
                     <div className="mt-4">
                       <Field name="abstract">
                         {({ field, meta }: FieldProps) => (
-                          <TextInput
+                          // <TextInput
+                          //   label="Resumo do programa:"
+                          //   {...field}
+                          //   value={field.value}
+                          //   error={meta.touched ? meta.error : ""}
+                          // />
+                          <TextAreaInput
                             label="Resumo do programa:"
-                            {...field}
-                            value={field.value}
                             error={meta.touched ? meta.error : ""}
+                            // value={field.value}
+
+                            {...field}
+                            compact={true}
+                            block={true}
                           />
                         )}
                       </Field>

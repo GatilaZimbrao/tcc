@@ -1,10 +1,9 @@
-import { FiLogOut, FiRepeat } from "react-icons/fi";
+import { FiLogOut } from "react-icons/fi";
 import CefetLogo from "../../assets/cefet_logo.png";
 
-import { Button } from "../styleguide/Button/Button";
-import { Link } from "react-router-dom";
 import { Navbar } from "./Navbar/Navbar";
 import { useAuth } from "../../modules/auth/context/AuthContext";
+import { AdminOnly } from "../utils/IsAdmin";
 
 const SideBar = () => {
   const { handleLogout } = useAuth();
@@ -18,24 +17,17 @@ const SideBar = () => {
         <Navbar />
       </div>
       <div className="sidebar--footer ">
-        <div>
-          <button
-            className="w-full py-2 px-4 cursor-pointer flex gap-2 items-center"
-            onClick={handleLogout}
-            type="button"
-          >
-            <FiRepeat /> Mudar conta
-          </button>
-        </div>
-        <div>
-          <button
-            className="w-full py-2 px-4 cursor-pointer flex gap-2 items-center"
-            onClick={handleLogout}
-            type="button"
-          >
-            <FiLogOut /> Logout
-          </button>
-        </div>
+        <AdminOnly>
+          <div>
+            <button
+              className="w-full py-2 px-4 cursor-pointer flex gap-2 items-center"
+              onClick={handleLogout}
+              type="button"
+            >
+              <FiLogOut /> Logout
+            </button>
+          </div>
+        </AdminOnly>
       </div>
     </div>
   );
