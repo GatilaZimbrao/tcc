@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { FieldProps } from "formik";
 import React, { useState } from "react";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 
 interface Option {
   value: string | number | boolean;
@@ -50,44 +51,48 @@ export const CustomSelect: React.FC<Props> = ({
 
   return (
     <>
-      <div
-        className={`${containerClasses} cursor-pointer border border-gray-300 rounded-md py-2 px-3 relative`}
-      >
-        {selectedOption && (
-          <label
-            className={`${labelClasses} pointer-events-none absolute top-0 -translate-y-1/2 left-3 bg-white px-1 text-xs transition-all duration-150 ease-out hover:ease-in peer-placeholder-shown:top-1/2 peer-placeholder-shown:bg-transparent peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:bg-white peer-focus:text-xs peer-focus:text-brand-500`}
-          >
-            {label}
-          </label>
-        )}
-
+      <div>
         <div
-          className={`text-sm placeholder:text-gray-300 peer w-full rounded bordertext-gray-900 ${
-            selectedOption && "capitalize"
-          }`}
-          onClick={() => setIsOpen(!isOpen)}
+          className={`${containerClasses} cursor-pointer border border-gray-300 rounded-md py-2 px-3 relative`}
         >
-          {selectedOption ? selectedOption : label}
-          <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-            {isOpen ? <FiChevronUp size={24} /> : <FiChevronDown size={24} />}
-          </span>
+          {selectedOption && (
+            <label
+              className={`${labelClasses} pointer-events-none absolute top-0 -translate-y-1/2 left-3 bg-white px-1 text-xs transition-all duration-150 ease-out hover:ease-in peer-placeholder-shown:top-1/2 peer-placeholder-shown:bg-transparent peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:bg-white peer-focus:text-xs peer-focus:text-brand-500`}
+            >
+              {label}
+            </label>
+          )}
+
+          <div
+            className={`text-sm placeholder:text-gray-300 peer w-full rounded bordertext-gray-900 ${
+              selectedOption && "capitalize"
+            }`}
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {selectedOption ? selectedOption : label}
+            <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+              {isOpen ? <FiChevronUp size={24} /> : <FiChevronDown size={24} />}
+            </span>
+          </div>
+          {isOpen && (
+            <ul className="absolute w-full max-h-36 overflow-y-auto z-10 top-full left-0 bg-white border border-gray-300 rounded-md text-sm text-gray-900">
+              {options.map((option) => (
+                <li
+                  key={`custom-select-${option.label}`}
+                  onClick={() => handleOptionClick(option)}
+                  className={`cursor-pointer hover:bg-gray-100 px-3 py-2 text-sm text-gray-900 capitalize ${
+                    selectedOption == option.value &&
+                    "bg-brand-100 hover:bg-brand-100"
+                  }`}
+                >
+                  {option.label}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
-        {isOpen && (
-          <ul className="absolute w-full max-h-36 overflow-y-auto z-10 top-full left-0 bg-white border border-gray-300 rounded-md text-sm text-gray-900">
-            {options.map((option) => (
-              <li
-                key={`custom-select-${option.label}`}
-                onClick={() => handleOptionClick(option)}
-                className={`cursor-pointer hover:bg-gray-100 px-3 py-2 text-sm text-gray-900 capitalize ${
-                  selectedOption == option.value &&
-                  "bg-brand-100 hover:bg-brand-100"
-                }`}
-              >
-                {option.label}
-              </li>
-            ))}
-          </ul>
-        )}
+
+        {error && <ErrorMessage error={error} />}
       </div>
     </>
   );

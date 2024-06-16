@@ -48,7 +48,7 @@ const TextInput = ({
           {!disabled && <span className="shadow-animation-peer"></span>}
         </div>
 
-        <ErrorMessage error={error} />
+        {error && <ErrorMessage error={error} />}
       </div>
     </>
   );

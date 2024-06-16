@@ -17,14 +17,22 @@ const TeacherImage: React.FC<Props> = ({ src, alt }) => {
     <div>
       {imageLoaded ? (
         <img
+          className="w-[100px] h-[100px] max-w-full max-h-full object-cover"
           src={src}
           alt={alt}
           width={100}
           height={100}
+          crossOrigin="anonymous"
           onError={handleLoadErro}
         />
       ) : (
-        <img src={TeacherDefaultImage} alt={alt} width={100} height={100} />
+        <img
+          className="w-[100px] h-[100px] max-w-full max-h-full object-cover"
+          src={TeacherDefaultImage}
+          alt={alt}
+          width={100}
+          height={100}
+        />
       )}
     </div>
   );

@@ -23,7 +23,7 @@ const MainComponent = ({
   }, [pages]);
 
   return (
-    <div className="main-component--container w-full flex-1 flex items-center justify-center p-16 rounded-2xl m-auto">
+    <div className="main-component--container max-h-[100vh] w-full flex-1 flex items-center justify-center p-16 rounded-2xl m-auto">
       <div className=" flex flex-col items-center justify-center p-4 rounded-2xl bg-white w-full relative">
         {page && (
           <AdminOnly>

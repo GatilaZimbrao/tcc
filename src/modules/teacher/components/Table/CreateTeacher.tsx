@@ -13,10 +13,12 @@ import { CustomSelect } from "../../../../shared/styleguide/Inputs/CustomSelect/
 import Modal from "../../../../shared/styleguide/Modal/Modal";
 import { Spinner } from "../../../../shared/styleguide/Spinner/Spinner";
 import { AxiosError } from "axios";
+import { ImageUploadInput } from "../../../../shared/styleguide/Inputs/ImageUploadInput/ImageUploadInput";
+import { validateImageExtension } from "../../../../shared/utils/validateImageExtension";
 
 const initialValues = {
   name: "",
-  image: "",
+  image: null,
   education: "",
   linkLattes: "",
   type: "",
@@ -24,7 +26,29 @@ const initialValues = {
 
 const schema = Yup.object().shape({
   name: Yup.string().required("Digite uma nome válido"),
-  image: Yup.string().required("Insira o link para a foto"),
+  // image: Yup.string().required("Insira o link para a foto"),
+
+  image: Yup.mixed()
+    .required("Insira um arquivo")
+    .test({
+      name: "fileSize",
+      message: "Arquivo grande demais. (Max: 5MB)",
+      test: (value: any) => {
+        const FILE_SIZE_LIMIT_MB = 5;
+        const FILE_SIZE_LIMIT = FILE_SIZE_LIMIT_MB * 1024 * 1024;
+
+        return value.size <= FILE_SIZE_LIMIT;
+      },
+    })
+    .test({
+      name: "fileType",
+      message: "Tipo de arquivo não suportado.",
+      test: (value: any) => {
+        if (!value) return true;
+
+        return validateImageExtension(value.name);
+      },
+    }),
   education: Yup.string().required("Digite uma formação"),
   linkLattes: Yup.string().required(
     "Insira o link para o currículo Lattes do docente"
@@ -34,7 +58,7 @@ const schema = Yup.object().shape({
 
 interface FormikValues {
   name: string;
-  image: string;
+  image: File | null;
   education: string;
   linkLattes: string;
   type: string;
@@ -83,15 +107,20 @@ const CreateTeacher = () => {
     try {
       setLoading(true);
 
-      const data = {
-        name,
-        image,
-        education,
-        linkLattes,
-        type,
-      };
+      const createBody = new FormData();
+      createBody.append("name", name);
+      createBody.append("education", education);
+      createBody.append("linkLattes", linkLattes);
+      createBody.append("type", type);
 
-      const response = await api.post<CreateTeacherResponse>("/teacher", data);
+      if (image) {
+        createBody.append("image", image);
+      }
+
+      const response = await api.post<CreateTeacherResponse>(
+        "/teacher",
+        createBody
+      );
 
       const created = response.status === 201;
 
@@ -127,44 +156,52 @@ const CreateTeacher = () => {
             onSubmit={handleCreate}
             validationSchema={schema}
           >
-            {({}) => (
+            {({ setFieldValue }) => (
               <Form className="flex grow flex-col justify-between">
                 <>
                   <div className="">
-                    <Field name="name">
-                      {({ field, meta }: FieldProps) => (
-                        <TextInput
-                          label="Nome completo do docente:"
-                          {...field}
-                          value={field.value}
-                          error={meta.touched ? meta.error : ""}
-                        />
-                      )}
-                    </Field>
-                    <div className="mt-4">
-                      <Field name="image">
-                        {({ field, meta }: FieldProps) => (
-                          <TextInput
-                            label="Insira o link para uma foto do docente:"
-                            {...field}
-                            value={field.value}
-                            error={meta.touched ? meta.error : ""}
-                          />
-                        )}
-                      </Field>
+                    <div className="flex">
+                      <div className="mr-4 ">
+                        <Field name="image">
+                          {({ field, meta }: FieldProps) => (
+                            <ImageUploadInput
+                              label="Insira uma foto do docente:"
+                              {...field}
+                              error={meta.touched ? meta.error : ""}
+                              value={field.value}
+                              setFieldValue={setFieldValue}
+                            />
+                          )}
+                        </Field>
+                      </div>
+
+                      <div className="flex-auto">
+                        <Field name="name">
+                          {({ field, meta }: FieldProps) => (
+                            <TextInput
+                              label="Nome completo do docente:"
+                              {...field}
+                              value={field.value}
+                              error={meta.touched ? meta.error : ""}
+                            />
+                          )}
+                        </Field>
+
+                        <div className="mt-4">
+                          <Field name="education">
+                            {({ field, meta }: FieldProps) => (
+                              <TextInput
+                                label="Insira a formação do docente:"
+                                {...field}
+                                value={field.value}
+                                error={meta.touched ? meta.error : ""}
+                              />
+                            )}
+                          </Field>
+                        </div>
+                      </div>
                     </div>
-                    <div className="mt-4">
-                      <Field name="education">
-                        {({ field, meta }: FieldProps) => (
-                          <TextInput
-                            label="Insira a formação do docente:"
-                            {...field}
-                            value={field.value}
-                            error={meta.touched ? meta.error : ""}
-                          />
-                        )}
-                      </Field>
-                    </div>
+
                     <div className="mt-4">
                       <Field name="linkLattes">
                         {({ field, meta }: FieldProps) => (
@@ -189,13 +226,8 @@ const CreateTeacher = () => {
                                 }
                               )}
                               field={field}
-                              error={meta.error}
+                              error={meta.touched ? meta.error : ""}
                             />
-                            {meta.touched && meta.error && (
-                              <div className="text-red-500 text-sm">
-                                {meta.error}
-                              </div>
-                            )}
                           </div>
                         )}
                       </Field>

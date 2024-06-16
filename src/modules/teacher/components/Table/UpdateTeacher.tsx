@@ -18,6 +18,7 @@ import { SuccessMessage } from "../../../../shared/styleguide/Inputs/SuccessMess
 import { Button } from "../../../../shared/styleguide/Button/Button";
 import * as Yup from "yup";
 import { AxiosError } from "axios";
+import { ImageUploadInput } from "../../../../shared/styleguide/Inputs/ImageUploadInput/ImageUploadInput";
 
 const schema = Yup.object().shape({
   name: Yup.string().required("Digite uma nome válido"),
@@ -84,17 +85,19 @@ const UpdateTeacher = ({ teacher }: UpdateTeacherProps) => {
     try {
       setLoading(true);
 
-      const data = {
-        name,
-        image,
-        education,
-        linkLattes,
-        type,
-      };
+      const createBody = new FormData();
+      createBody.append("name", name);
+      createBody.append("education", education);
+      createBody.append("linkLattes", linkLattes);
+      createBody.append("type", type);
+
+      if (image) {
+        createBody.append("image", image);
+      }
 
       const response = await api.put<UpdateTeacherResponse>(
         `/teacher/${teacher.id}`,
-        data
+        createBody
       );
 
       const updated = response.status === 200;
@@ -136,44 +139,53 @@ const UpdateTeacher = ({ teacher }: UpdateTeacherProps) => {
             onSubmit={handleUpdate}
             validationSchema={schema}
           >
-            {({}) => (
+            {({ setFieldValue }) => (
               <Form className="flex grow flex-col justify-between">
                 <>
                   <div className="">
-                    <Field name="name">
-                      {({ field, meta }: FieldProps) => (
-                        <TextInput
-                          label="Nome completo do docente:"
-                          {...field}
-                          value={field.value}
-                          error={meta.touched ? meta.error : ""}
-                        />
-                      )}
-                    </Field>
-                    <div className="mt-4">
-                      <Field name="image">
-                        {({ field, meta }: FieldProps) => (
-                          <TextInput
-                            label="Insira o link para uma foto do docente:"
-                            {...field}
-                            value={field.value}
-                            error={meta.touched ? meta.error : ""}
-                          />
-                        )}
-                      </Field>
+                    <div className="flex">
+                      <div className="mr-4 ">
+                        <Field name="image">
+                          {({ field, meta }: FieldProps) => (
+                            <ImageUploadInput
+                              label="Insira uma foto do docente:"
+                              {...field}
+                              initialValue={initialValues.image}
+                              error={meta.touched ? meta.error : ""}
+                              value={field.value}
+                              setFieldValue={setFieldValue}
+                            />
+                          )}
+                        </Field>
+                      </div>
+
+                      <div className="flex-auto">
+                        <Field name="name">
+                          {({ field, meta }: FieldProps) => (
+                            <TextInput
+                              label="Nome completo do docente:"
+                              {...field}
+                              value={field.value}
+                              error={meta.touched ? meta.error : ""}
+                            />
+                          )}
+                        </Field>
+
+                        <div className="mt-4">
+                          <Field name="education">
+                            {({ field, meta }: FieldProps) => (
+                              <TextInput
+                                label="Insira a formação do docente:"
+                                {...field}
+                                value={field.value}
+                                error={meta.touched ? meta.error : ""}
+                              />
+                            )}
+                          </Field>
+                        </div>
+                      </div>
                     </div>
-                    <div className="mt-4">
-                      <Field name="education">
-                        {({ field, meta }: FieldProps) => (
-                          <TextInput
-                            label="Insira a formação do docente:"
-                            {...field}
-                            value={field.value}
-                            error={meta.touched ? meta.error : ""}
-                          />
-                        )}
-                      </Field>
-                    </div>{" "}
+
                     <div className="mt-4">
                       <Field name="linkLattes">
                         {({ field, meta }: FieldProps) => (
@@ -201,11 +213,6 @@ const UpdateTeacher = ({ teacher }: UpdateTeacherProps) => {
                               field={field}
                               error={meta.error}
                             />
-                            {meta.touched && meta.error && (
-                              <div className="text-red-500 text-sm">
-                                {meta.error}
-                              </div>
-                            )}
                           </div>
                         )}
                       </Field>

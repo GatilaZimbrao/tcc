@@ -241,11 +241,6 @@ const CreateExtension = ({ type }: CreateExtensionProps) => {
                               field={field}
                               error={meta.touched ? meta.error : ""}
                             />
-                            {meta.touched && meta.error && (
-                              <div className="text-red-500 text-sm">
-                                {meta.error}
-                              </div>
-                            )}
                           </div>
                         )}
                       </Field>

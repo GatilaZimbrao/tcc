@@ -183,18 +183,10 @@ const UpdateExtension = ({ extension }: UpdateExtensionProps) => {
                           <TextAreaInput
                             label="Resumo do programa:"
                             error={meta.touched ? meta.error : ""}
-                            // value={field.value}
-
                             {...field}
                             compact={true}
                             block={true}
                           />
-                          // <TextInput
-                          //   label="Resumo do programa:"
-                          //   {...field}
-                          //   value={field.value}
-                          //   error={meta.touched ? meta.error : ""}
-                          // />
                         )}
                       </Field>
                     </div>
@@ -239,11 +231,6 @@ const UpdateExtension = ({ extension }: UpdateExtensionProps) => {
                               field={field}
                               error={meta.touched ? meta.error : ""}
                             />
-                            {meta.touched && meta.error && (
-                              <div className="text-red-500 text-sm">
-                                {meta.error}
-                              </div>
-                            )}
                           </div>
                         )}
                       </Field>

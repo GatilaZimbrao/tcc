@@ -41,6 +41,7 @@ export interface AuthContext {
   isAdmin: boolean;
   loading: boolean;
   user?: User;
+  initialValidate: boolean;
   handleLogin: ({ email, password }: LoginInput) => Promise<LoginResult>;
   handleRegister: ({
     name,
@@ -56,7 +57,38 @@ export const AuthContext = createContext({} as AuthContext);
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [user, setUser] = useState<User>();
+  const [initialValidate, setInitialValidate] = useState<boolean>(false);
   const navigate = useNavigate();
+
+  const validateSession = async () => {
+    setLoading(true);
+    try {
+      const sessionToken = Cookies.get(SESSION_TOKEN);
+      if (sessionToken) {
+        const response = await api.get<SessionResponse>("/auth/session");
+        const authenticated = response.status === 200;
+
+        if (authenticated) {
+          setUser(response.data);
+        }
+      }
+    } catch (error) {
+      console.error("Error validating session:", error);
+    } finally {
+      setLoading(false);
+      setInitialValidate(true);
+    }
+  };
+
+  useEffect(() => {
+    const sessionToken = Cookies.get(SESSION_TOKEN);
+    if (sessionToken) {
+      validateSession();
+    } else {
+      setLoading(false);
+      setInitialValidate(true);
+    }
+  }, []);
 
   const handleLogin = async ({
     email,
@@ -151,6 +183,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     isAdmin,
     loading,
     user,
+    initialValidate,
     handleLogin,
     handleRegister,
     handleLogout,
