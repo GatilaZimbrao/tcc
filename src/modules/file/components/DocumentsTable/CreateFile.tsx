@@ -24,9 +24,23 @@ const schema = Yup.object().shape({
   file: Yup.mixed()
     .required("Insira um arquivo")
     .test({
+      name: "fileCheck",
+      message: "Insira um arquivo",
+      test: (value: any) => {
+        if (!value) return false;
+
+        if (typeof value != "object") {
+          return false;
+        }
+
+        return true;
+      },
+    })
+    .test({
       name: "fileSize",
       message: "Arquivo grande demais. (Max: 5MB)",
       test: (value: any) => {
+        if (!value || !value.size) return false;
         const FILE_SIZE_LIMIT_MB = 5;
         const FILE_SIZE_LIMIT = FILE_SIZE_LIMIT_MB * 1024 * 1024;
 
@@ -37,8 +51,7 @@ const schema = Yup.object().shape({
       name: "fileType",
       message: "Tipo de arquivo não suportado.",
       test: (value: any) => {
-        if (!value) return true;
-
+        if (!value || !value.name) return false;
         return validateFileExtension(value.name);
       },
     }),

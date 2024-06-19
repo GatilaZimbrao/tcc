@@ -19,10 +19,46 @@ import { Button } from "../../../../shared/styleguide/Button/Button";
 import * as Yup from "yup";
 import { AxiosError } from "axios";
 import { ImageUploadInput } from "../../../../shared/styleguide/Inputs/ImageUploadInput/ImageUploadInput";
+import { validateImageExtension } from "../../../../shared/utils/validateImageExtension";
 
 const schema = Yup.object().shape({
   name: Yup.string().required("Digite uma nome válido"),
-  image: Yup.string().required("Insira o link para a foto"),
+  // image: Yup.string().required("Insira o link para a foto"),
+  image: Yup.mixed()
+    .required("Insira um arquivo")
+    .test({
+      name: "fileCheck",
+      message: "Insira um arquivo",
+      test: (value: any) => {
+        if (!value) return false;
+
+        if (typeof value != "object") {
+          return false;
+        }
+
+        return true;
+      },
+    })
+    .test({
+      name: "fileSize",
+      message: "Arquivo grande demais. (Max: 5MB)",
+      test: (value: any) => {
+        if (!value || !value.size) return false;
+        const FILE_SIZE_LIMIT_MB = 5;
+        const FILE_SIZE_LIMIT = FILE_SIZE_LIMIT_MB * 1024 * 1024;
+
+        return value.size <= FILE_SIZE_LIMIT;
+      },
+    })
+    .test({
+      name: "fileType",
+      message: "Tipo de arquivo não suportado.",
+      test: (value: any) => {
+        if (!value || !value.name) return false;
+
+        return validateImageExtension(value.name);
+      },
+    }),
   education: Yup.string().required("Digite uma formação"),
   linkLattes: Yup.string().required(
     "Insira o link para o currículo Lattes do docente"
@@ -32,7 +68,7 @@ const schema = Yup.object().shape({
 
 interface FormikValues {
   name: string;
-  image: string;
+  image: File | string | null;
   education: string;
   linkLattes: string;
   type: string;

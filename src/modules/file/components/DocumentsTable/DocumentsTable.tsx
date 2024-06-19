@@ -7,6 +7,7 @@ import { CreateFile } from "./CreateFile";
 import { useState } from "react";
 import SearchFile from "./SearchFile";
 import { AdminOnly } from "../../../../shared/utils/IsAdmin";
+import { UpdateFile } from "./UpdateFile";
 
 const DocumentsTable = () => {
   const { files } = useFileContext();
@@ -60,6 +61,10 @@ const DocumentsTable = () => {
                   <AdminOnly>
                     <span>
                       <DeleteFile file={item} />
+                    </span>
+
+                    <span>
+                      <UpdateFile item={item} />
                     </span>
                   </AdminOnly>
                 </td>
