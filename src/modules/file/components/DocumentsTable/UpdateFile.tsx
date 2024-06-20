@@ -22,7 +22,7 @@ const schema = Yup.object().shape({
     .required("Insira um arquivo")
     .test({
       name: "fileCheck",
-      message: "Insira um arquivo válido ou o nome de um arquivo",
+      message: "Insira um arquivo",
       test: (value: any) => {
         if (!value) return false;
 

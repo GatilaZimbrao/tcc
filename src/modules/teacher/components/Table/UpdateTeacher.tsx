@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { api } from "../../../../shared/clients/APIClient";
-import {
-  Teacher,
-  GetTeacherResponse,
-  ListTeacherResponse,
-  UpdateTeacherResponse,
-} from "../../typings/teacher";
+import { Teacher, UpdateTeacherResponse } from "../../typings/teacher";
 import { Spinner } from "../../../../shared/styleguide/Spinner/Spinner";
 import { useTeacherContext } from "../../context/TeacherProvider";
 import Modal from "../../../../shared/styleguide/Modal/Modal";
@@ -23,7 +18,6 @@ import { validateImageExtension } from "../../../../shared/utils/validateImageEx
 
 const schema = Yup.object().shape({
   name: Yup.string().required("Digite uma nome válido"),
-  // image: Yup.string().required("Insira o link para a foto"),
   image: Yup.mixed()
     .required("Insira um arquivo")
     .test({
@@ -32,31 +26,38 @@ const schema = Yup.object().shape({
       test: (value: any) => {
         if (!value) return false;
 
-        if (typeof value != "object") {
-          return false;
+        if (typeof value === "object") {
+          return true;
+        } else if (typeof value === "string") {
+          return value.trim().length > 0;
         }
 
-        return true;
+        return false;
       },
     })
     .test({
       name: "fileSize",
       message: "Arquivo grande demais. (Max: 5MB)",
       test: (value: any) => {
-        if (!value || !value.size) return false;
-        const FILE_SIZE_LIMIT_MB = 5;
-        const FILE_SIZE_LIMIT = FILE_SIZE_LIMIT_MB * 1024 * 1024;
+        if (typeof value === "object" && value.size) {
+          const FILE_SIZE_LIMIT_MB = 5;
+          const FILE_SIZE_LIMIT = FILE_SIZE_LIMIT_MB * 1024 * 1024;
 
-        return value.size <= FILE_SIZE_LIMIT;
+          return value.size <= FILE_SIZE_LIMIT;
+        }
+
+        return true;
       },
     })
     .test({
       name: "fileType",
       message: "Tipo de arquivo não suportado.",
       test: (value: any) => {
-        if (!value || !value.name) return false;
+        if (typeof value === "object" && value.name) {
+          return validateImageExtension(value.name);
+        }
 
-        return validateImageExtension(value.name);
+        return true;
       },
     }),
   education: Yup.string().required("Digite uma formação"),
@@ -128,7 +129,11 @@ const UpdateTeacher = ({ teacher }: UpdateTeacherProps) => {
       createBody.append("type", type);
 
       if (image) {
-        createBody.append("image", image);
+        if (typeof image == "object") {
+          createBody.append("image", image);
+        } else {
+          createBody.append("image", new File([], teacher.image));
+        }
       }
 
       const response = await api.put<UpdateTeacherResponse>(

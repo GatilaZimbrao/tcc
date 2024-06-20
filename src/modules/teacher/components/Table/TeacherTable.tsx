@@ -1,11 +1,8 @@
-import { Button } from "../../../../shared/styleguide/Button/Button";
 import { CreateTeacher } from "./CreateTeacher";
-import { useState } from "react";
 import { useTeacherContext } from "../../context/TeacherProvider";
 import { Link } from "react-router-dom";
 import TeacherImage from "./TeacherImage";
 import { DeleteTeacher } from "./DeleteTeacher";
-import Modal from "../../../../shared/styleguide/Modal/Modal";
 import { UpdateTeacher } from "./UpdateTeacher";
 import SearchTeacher from "./SearchTeacher";
 import { AdminOnly } from "../../../../shared/utils/IsAdmin";
