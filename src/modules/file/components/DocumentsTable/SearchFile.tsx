@@ -28,14 +28,14 @@ const SearchFile = () => {
   };
 
   return (
-    <div className=" bg-white dark:bg-gray-900 shadow-md w-full rounded-lg relative">
+    <div className=" bg-white  shadow-md w-full rounded-lg relative">
       <label htmlFor="table-search" className="sr-only">
         Search
       </label>
       <div className="w-full ">
         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none w-full">
           <svg
-            className="w-4 h-4 text-gray-500 dark:text-gray-400"
+            className="w-4 h-4 text-gray-500 "
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -53,7 +53,7 @@ const SearchFile = () => {
         <input
           type="text"
           id="table-search"
-          className="block w-full h-10 p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="block w-full h-10 p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
           placeholder="Search for items"
           value={searchQuery}
           onChange={handleChange}

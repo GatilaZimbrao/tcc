@@ -23,8 +23,8 @@ const ExtensionTable = ({ type }: ExtensionTableProps) => {
           <CreateExtension type={type} />
         </AdminOnly>
       </div>
-      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 shadow-md">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <table className="w-full text-sm text-left text-gray-500 shadow-md">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
           <tr>
             <th scope="col" className="px-6 py-3">
               Nome
@@ -49,25 +49,22 @@ const ExtensionTable = ({ type }: ExtensionTableProps) => {
             return (
               <tr
                 key={`extension-table-${item.id}`}
-                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                className="bg-white border-b hover:bg-gray-50"
               >
-                <td
-                  scope="row"
-                  className="px-6 py-4  whitespace-nowrap dark:text-white"
-                >
+                <td scope="row" className="px-6 py-4  whitespace-nowrap">
                   <div className="text-base font-bold text-gray-900">
                     {item.name}
                   </div>
                 </td>
                 <td
                   scope="row"
-                  className="px-6 py-4 font-normal text-gray-900 whitespace-nowrap dark:text-white"
+                  className="px-6 py-4 font-normal text-gray-900 whitespace-nowrap "
                 >
                   {item.email}
                 </td>
                 <td
                   scope="row"
-                  className="px-6 py-4 font-normal text-gray-900 whitespace-nowrap dark:text-white"
+                  className="px-6 py-4 font-normal text-gray-900 whitespace-nowrap "
                 >
                   {item.teachers.map((teacherExtension, index) => {
                     return (
@@ -79,12 +76,12 @@ const ExtensionTable = ({ type }: ExtensionTableProps) => {
                 </td>
                 <td
                   scope="row"
-                  className="px-6 py-4 font-normal text-gray-900 whitespace-nowrap dark:text-white"
+                  className="px-6 py-4 font-normal text-gray-900 whitespace-nowrap "
                 >
                   {item.isActive ? "Sim" : "Não"}
                 </td>
 
-                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
                   <span>
                     <ViewExtension extension={item} />
                   </span>

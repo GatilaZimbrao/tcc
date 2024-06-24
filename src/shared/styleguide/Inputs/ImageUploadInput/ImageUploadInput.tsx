@@ -87,8 +87,7 @@ const ImageUploadInput = ({
   const dropzoneClasses = classNames(
     "flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50",
     {
-      "dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600":
-        !disabled,
+      "hover:bg-gray-100": !disabled,
       "opacity-50 cursor-not-allowed": disabled,
       "bg-cover bg-center": preview,
       "border-blue-500 bg-blue-100": isDragging,
