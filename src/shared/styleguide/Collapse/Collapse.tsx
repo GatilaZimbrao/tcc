@@ -45,7 +45,7 @@ export const Collapse = ({
       </button>
       <div
         ref={subMenuRef}
-        className={`max-h-0 ${
+        className={`max-h-0 w-full ${
           opened ? "overflow-auto" : "overflow-hidden"
         } transition-[max-height] duration-300 layout-scrollbar`}
         style={{

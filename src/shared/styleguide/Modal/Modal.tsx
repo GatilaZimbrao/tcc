@@ -35,7 +35,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
 
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto ">
-      <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center p-0">
         <div
           className="fixed inset-0 transition-opacity"
           aria-hidden="true"
@@ -45,14 +45,14 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
         </div>
 
         <span
-          className="hidden sm:inline-block sm:align-middle sm:min-h-screen"
+          className="inline-block align-middle min-h-screen"
           aria-hidden="true"
         >
           &#8203;
         </span>
 
         <div
-          className="inline-block align-bottom bg-white rounded-lg text-left overflow-y-visible shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+          className="inline-block bg-white rounded-lg text-left overflow-y-visible shadow-xl transform transition-all my-8 align-middle max-w-lg w-full"
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-headline"

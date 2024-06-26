@@ -19,22 +19,20 @@ const schema = Yup.object().shape({
   pathName: Yup.string().required("Digite uma título válido"),
   title: Yup.string().required("Digite uma título válido"),
   description: Yup.string(),
-  minutesLink: Yup.string(),
-  cepeLink: Yup.string(),
+  imageUrl: Yup.string(),
 });
 interface FormikValues {
   pathName: string;
   title: string;
   description: string;
-  minutesLink: string;
-  cepeLink: string;
+  imageUrl: string;
 }
 
-interface UpdatePageCollegiateProps {
+interface UpdatePageHomeProps {
   page: Page;
 }
 
-const UpdatePageCollegiate = ({ page }: UpdatePageCollegiateProps) => {
+const UpdatePageHome = ({ page }: UpdatePageHomeProps) => {
   const [loading, setLoading] = useState(false);
   const { dispatch } = usePageContext();
 
@@ -71,8 +69,7 @@ const UpdatePageCollegiate = ({ page }: UpdatePageCollegiateProps) => {
     pathName,
     title,
     description,
-    minutesLink,
-    cepeLink,
+    imageUrl,
   }: FormikValues) => {
     try {
       setLoading(true);
@@ -82,8 +79,7 @@ const UpdatePageCollegiate = ({ page }: UpdatePageCollegiateProps) => {
         title,
         description,
         additionalParams: {
-          minutesLink,
-          cepeLink,
+          imageUrl,
         },
       };
 
@@ -115,8 +111,7 @@ const UpdatePageCollegiate = ({ page }: UpdatePageCollegiateProps) => {
     pathName: page.pathName,
     title: page.title,
     description: page.description,
-    minutesLink: page?.additionalParams?.minutesLink ?? "",
-    cepeLink: page?.additionalParams?.cepeLink ?? "",
+    imageUrl: page?.additionalParams?.imageUrl ?? "",
   };
 
   return (
@@ -159,23 +154,10 @@ const UpdatePageCollegiate = ({ page }: UpdatePageCollegiateProps) => {
                     </div>
 
                     <div className="mt-4">
-                      <Field name="minutesLink">
+                      <Field name="imageUrl">
                         {({ field, meta }: FieldProps) => (
                           <TextInput
-                            label="Link para as Atas:"
-                            {...field}
-                            value={field.value}
-                            error={meta.touched ? meta.error : ""}
-                          />
-                        )}
-                      </Field>
-                    </div>
-
-                    <div className="mt-4">
-                      <Field name="cepeLink">
-                        {({ field, meta }: FieldProps) => (
-                          <TextInput
-                            label="Link para o regulamento do CEPE:"
+                            label="Link da imagem:"
                             {...field}
                             value={field.value}
                             error={meta.touched ? meta.error : ""}
@@ -213,7 +195,7 @@ const UpdatePageCollegiate = ({ page }: UpdatePageCollegiateProps) => {
         }
       />
       <button
-        className="p-4 shadow-md bg-gray-50 cursor-pointer rounded"
+        className="p-2 lg:p-4 shadow-md bg-gray-50 cursor-pointer rounded"
         onClick={loading ? () => {} : handleOpenModal}
       >
         {loading ? <Spinner /> : <FiEdit />}
@@ -222,4 +204,4 @@ const UpdatePageCollegiate = ({ page }: UpdatePageCollegiateProps) => {
   );
 };
 
-export { UpdatePageCollegiate };
+export { UpdatePageHome };

@@ -19,20 +19,22 @@ const schema = Yup.object().shape({
   pathName: Yup.string().required("Digite uma título válido"),
   title: Yup.string().required("Digite uma título válido"),
   description: Yup.string(),
-  imageUrl: Yup.string(),
+  minutesLink: Yup.string(),
+  cepeLink: Yup.string(),
 });
 interface FormikValues {
   pathName: string;
   title: string;
   description: string;
-  imageUrl: string;
+  minutesLink: string;
+  cepeLink: string;
 }
 
-interface UpdatePageHomeProps {
+interface UpdatePageCollegiateProps {
   page: Page;
 }
 
-const UpdatePageHome = ({ page }: UpdatePageHomeProps) => {
+const UpdatePageCollegiate = ({ page }: UpdatePageCollegiateProps) => {
   const [loading, setLoading] = useState(false);
   const { dispatch } = usePageContext();
 
@@ -69,7 +71,8 @@ const UpdatePageHome = ({ page }: UpdatePageHomeProps) => {
     pathName,
     title,
     description,
-    imageUrl,
+    minutesLink,
+    cepeLink,
   }: FormikValues) => {
     try {
       setLoading(true);
@@ -79,7 +82,8 @@ const UpdatePageHome = ({ page }: UpdatePageHomeProps) => {
         title,
         description,
         additionalParams: {
-          imageUrl,
+          minutesLink,
+          cepeLink,
         },
       };
 
@@ -111,7 +115,8 @@ const UpdatePageHome = ({ page }: UpdatePageHomeProps) => {
     pathName: page.pathName,
     title: page.title,
     description: page.description,
-    imageUrl: page?.additionalParams?.imageUrl ?? "",
+    minutesLink: page?.additionalParams?.minutesLink ?? "",
+    cepeLink: page?.additionalParams?.cepeLink ?? "",
   };
 
   return (
@@ -154,10 +159,23 @@ const UpdatePageHome = ({ page }: UpdatePageHomeProps) => {
                     </div>
 
                     <div className="mt-4">
-                      <Field name="imageUrl">
+                      <Field name="minutesLink">
                         {({ field, meta }: FieldProps) => (
                           <TextInput
-                            label="Link da imagem:"
+                            label="Link para as Atas:"
+                            {...field}
+                            value={field.value}
+                            error={meta.touched ? meta.error : ""}
+                          />
+                        )}
+                      </Field>
+                    </div>
+
+                    <div className="mt-4">
+                      <Field name="cepeLink">
+                        {({ field, meta }: FieldProps) => (
+                          <TextInput
+                            label="Link para o regulamento do CEPE:"
                             {...field}
                             value={field.value}
                             error={meta.touched ? meta.error : ""}
@@ -195,7 +213,7 @@ const UpdatePageHome = ({ page }: UpdatePageHomeProps) => {
         }
       />
       <button
-        className="p-4 shadow-md bg-gray-50 cursor-pointer rounded"
+        className="p-2 lg:p-4 shadow-md bg-gray-50 cursor-pointer rounded"
         onClick={loading ? () => {} : handleOpenModal}
       >
         {loading ? <Spinner /> : <FiEdit />}
@@ -204,4 +222,4 @@ const UpdatePageHome = ({ page }: UpdatePageHomeProps) => {
   );
 };
 
-export { UpdatePageHome };
+export { UpdatePageCollegiate };

@@ -175,7 +175,7 @@ const UpdatePage = ({ page }: UpdatePageProps) => {
         }
       />
       <button
-        className="p-4 shadow-md bg-gray-50 cursor-pointer rounded"
+        className="p-2 lg:p-4 shadow-md bg-gray-50 cursor-pointer rounded"
         onClick={loading ? () => {} : handleOpenModal}
       >
         {loading ? <Spinner /> : <FiEdit />}

@@ -1,8 +1,7 @@
 import { useMemo } from "react";
 import { usePageContext } from "../modules/page/context/PageProvider";
-import { MainComponent } from "../shared/components/MainComponent/MainComponent";
-import { UpdatePageHome } from "../shared/components/MainComponent/UpdatePageHome";
-import { SideBar } from "../shared/components/SideBar";
+import { PageLayout } from "../shared/components/PageLayout/PageLayout";
+import { UpdatePageHome } from "../shared/components/PageLayout/UpdatePageHome";
 
 export const HomePage = () => {
   const { pages } = usePageContext();
@@ -16,24 +15,25 @@ export const HomePage = () => {
   }, [pages]);
 
   return (
-    <div className="flex min-h-screen w-full">
-      <SideBar />
-      <MainComponent UpdatePageComponent={UpdatePageHome}>
-        <h1 className="w-full text-center text-gray-500">{page?.title}</h1>
+    <PageLayout UpdatePageComponent={UpdatePageHome}>
+      <h1 className="w-full text-center text-gray-500 text-3xl lg:text-4xl px-6 lg:px-12">
+        {page?.title}
+      </h1>
 
+      {page?.description && (
         <p className="w-full text-center mt-4 mb-6 text-gray-500 text-xl">
           {page?.description}
         </p>
+      )}
 
-        {page?.additionalParams?.imageUrl && (
-          <img
-            className="rounded-2xl"
-            src={page?.additionalParams?.imageUrl}
-            alt={"Foto do CEFET Nova Friburgo"}
-            width={"100%"}
-          />
-        )}
-      </MainComponent>
-    </div>
+      {page?.additionalParams?.imageUrl && (
+        <img
+          className="rounded-2xl"
+          src={page?.additionalParams?.imageUrl}
+          alt={"Foto do CEFET Nova Friburgo"}
+          width={"100%"}
+        />
+      )}
+    </PageLayout>
   );
 };

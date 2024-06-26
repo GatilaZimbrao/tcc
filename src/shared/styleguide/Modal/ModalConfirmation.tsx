@@ -21,7 +21,7 @@ const ModalConfirmation: React.FC<ModalConfirmationProps> = ({
 
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto">
-      <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center p-0">
         <div
           className="fixed inset-0 transition-opacity"
           aria-hidden="true"
@@ -31,31 +31,29 @@ const ModalConfirmation: React.FC<ModalConfirmationProps> = ({
         </div>
 
         <span
-          className="hidden sm:inline-block sm:align-middle sm:min-h-screen"
+          className="inline-block align-middle min-h-screen"
           aria-hidden="true"
         >
           &#8203;
         </span>
 
         <div
-          className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+          className="inline-block bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all my-8 align-middle max-w-lg w-full"
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-headline"
         >
           <div className="bg-white px-4  py-8 ">
-            <div className="sm:flex sm:justify-center">
-              <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                <div className="mt-2">
-                  <p className="text-xl text-gray-900 text-center">{message}</p>
-                </div>
+            <div className="flex justify-center">
+              <div className="py-1 px-4 text-left">
+                <p className="text-xl text-gray-900 text-center">{message}</p>
               </div>
             </div>
           </div>
-          <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse justify-between">
+          <div className="bg-gray-50 py-3 px-6 flex flex-row-reverse justify-between">
             <button
               type="button"
-              className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:w-auto sm:text-sm"
+              className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 w-auto text-sm"
               onClick={() => {
                 onConfirm();
                 onClose();
@@ -65,7 +63,7 @@ const ModalConfirmation: React.FC<ModalConfirmationProps> = ({
             </button>
             <button
               type="button"
-              className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 sm:mt-0 sm:w-auto sm:text-sm"
+              className="inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 mt-0 w-auto text-sm"
               onClick={onClose}
             >
               {cancelText}

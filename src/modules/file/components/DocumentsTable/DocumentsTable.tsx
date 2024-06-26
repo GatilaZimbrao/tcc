@@ -14,7 +14,7 @@ const DocumentsTable = () => {
   const [openModal, setOpenModal] = useState(false);
 
   return (
-    <div className="overflow-x-auto sm:rounded-lg max-h-[70vh] p-4 w-full">
+    <div className="overflow-x-auto rounded-lg max-h-[70vh] p-4 w-full">
       <AdminOnly>
         <CreateFile
           openModal={openModal}

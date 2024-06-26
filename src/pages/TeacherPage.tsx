@@ -1,8 +1,6 @@
-import { SideBar } from "../shared/components/SideBar";
-
 import { TeacherProvider } from "../modules/teacher/context/TeacherProvider";
 import { TeacherTable } from "../modules/teacher/components/Table/TeacherTable";
-import { MainComponent } from "../shared/components/MainComponent/MainComponent";
+import { PageLayout } from "../shared/components/PageLayout/PageLayout";
 import { usePageContext } from "../modules/page/context/PageProvider";
 import { useMemo } from "react";
 
@@ -18,18 +16,20 @@ export const TeacherPage = () => {
   }, [pages]);
 
   return (
-    <div className="flex min-h-screen w-full">
-      <SideBar />
-      <MainComponent>
-        <h1 className="w-full text-center">{page?.title}</h1>
+    <PageLayout>
+      <h1 className="w-full text-center text-gray-500 text-3xl lg:text-4xl px-6 lg:px-12">
+        {page?.title}
+      </h1>
 
-        <p className="w-3/4 text-center mt-4 mb-4 text-gray-500 text-xl">
+      {page?.description && (
+        <p className="w-full text-center mt-4 mb-6 text-gray-500 text-xl">
           {page?.description}
         </p>
-        <TeacherProvider>
-          <TeacherTable />
-        </TeacherProvider>
-      </MainComponent>
-    </div>
+      )}
+
+      <TeacherProvider>
+        <TeacherTable />
+      </TeacherProvider>
+    </PageLayout>
   );
 };

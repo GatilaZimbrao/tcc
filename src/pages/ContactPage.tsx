@@ -1,5 +1,4 @@
-import { MainComponent } from "../shared/components/MainComponent/MainComponent";
-import { SideBar } from "../shared/components/SideBar";
+import { PageLayout } from "../shared/components/PageLayout/PageLayout";
 
 import { ContactProvider } from "../modules/contact/context/ContactProvider";
 import { ContactTable } from "../modules/contact/components/ContactTable";
@@ -18,19 +17,20 @@ export const ContactPage = () => {
   }, [pages]);
 
   return (
-    <div className="flex min-h-screen w-full">
-      <SideBar />
-      <MainComponent>
-        <h1 className="w-full text-center text-gray-500">{page?.title}</h1>
+    <PageLayout>
+      <h1 className="w-full text-center text-gray-500 text-3xl lg:text-4xl px-6 lg:px-12">
+        {page?.title}
+      </h1>
 
+      {page?.description && (
         <p className="w-full text-center mt-4 mb-6 text-gray-500 text-xl">
           {page?.description}
         </p>
+      )}
 
-        <ContactProvider>
-          <ContactTable />
-        </ContactProvider>
-      </MainComponent>
-    </div>
+      <ContactProvider>
+        <ContactTable />
+      </ContactProvider>
+    </PageLayout>
   );
 };

@@ -11,7 +11,7 @@ const TeacherTable = () => {
   const { teachers } = useTeacherContext();
 
   return (
-    <div className="overflow-x-auto sm:rounded-lg max-h-[70vh] p-4 w-full">
+    <div className="overflow-x-auto rounded-lg max-h-[70vh] p-4 w-full">
       <div className="flex justify-between items-center mb-4 mt-2 gap-4">
         <SearchTeacher />
 
