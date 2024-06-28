@@ -78,7 +78,7 @@ const Navbar = ({ closeMenu }: NavbarProps) => {
   const location = useLocation();
 
   return (
-    <div className="flex flex-col items-center justify-start h-full w-full bg-white p-4 fixed top-0 left-0 z-50 lg:relative lg:h-auto lg:w-auto lg:bg-transparent lg:p-0">
+    <div className="flex flex-col items-center justify-start h-full w-full bg-white p-4 fixed top-0 left-0 z-10 lg:relative lg:h-auto lg:w-auto lg:bg-transparent lg:p-0">
       <div className="flex items-center justify-between w-full pl-4  lg:hidden">
         <span className="bg-white text-lg font-bold text-gray-500">Menu</span>
         <button

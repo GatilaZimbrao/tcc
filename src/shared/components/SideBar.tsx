@@ -41,7 +41,7 @@ const SideBar = () => {
       <div
         className={`lg:flex lg:flex-col lg:w-full ${
           isMenuOpen
-            ? "fixed top-0 left-0 h-full w-full bg-white z-50"
+            ? "fixed top-0 left-0 h-full w-full bg-white z-10"
             : "hidden lg:block"
         }`}
       >
