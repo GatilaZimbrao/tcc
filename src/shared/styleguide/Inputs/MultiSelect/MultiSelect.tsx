@@ -62,7 +62,7 @@ export const MultiSelect: React.FC<Props> = ({
   );
 
   const labelClasses = classNames(
-    "pointer-events-none absolute z-[1] left-3 bg-white px-1 text-xs transition-all duration-150 ease-out hover:ease-in",
+    "pointer-events-none absolute z-10 left-3 bg-white px-1 text-xs transition-all duration-150 ease-out hover:ease-in",
     {
       "peer-focus:text-brand-500 peer-placeholder-shown:text-gray-600 text-gray-600":
         !error,

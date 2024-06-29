@@ -130,9 +130,9 @@ const CreateFile = ({ openModal, setOpenModal }: CreateFileProps) => {
 
   return (
     <>
-      <div className="opacity-40 bg-black inset-0 fixed z-[1]"></div>
+      <div className="opacity-40 bg-black inset-0 fixed z-10"></div>
 
-      <div className="absolute p-5 bg-white rounded-lg shadow-lg z-[1] max-w-xl w-full left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+      <div className="absolute p-5 bg-white rounded-lg shadow-lg z-10 max-w-xl w-full left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <div className="flex justify-between items-center mb-4">
           <div className="font-semibold text-xl">Cadastrar</div>
           <div className="cursor-pointer" onClick={() => setOpenModal(false)}>
